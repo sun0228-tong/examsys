@@ -60,6 +60,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/layui/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/font/**", "anon");
+        filterChainDefinitionMap.put("/api/**", "anon");
 
         filterChainDefinitionMap.put("/login", "anon");
 
@@ -100,7 +101,7 @@ public class ShiroConfig {
     }
 
     // -------------------使用注解时需要增加的配置 -----------------
-    // 如果不使用redis做缓存，不需要statid修饰符
+    // 如果不使用redis做缓存，不需要static修饰符
     @Bean
     public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
