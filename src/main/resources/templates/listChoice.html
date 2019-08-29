@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择题管理</title>
+    <link rel="stylesheet" href="layui/css/layui.css" />
+    <script type="text/javascript" src="../layui/layui.js" ></script>
+    <script type="text/javascript" src="js/jquery-1.12.2.min.js" ></script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div id="content">
+        <form class="layui-form searchDiv" action="" lay-filter="example">
+            <div class="layui-form-item" >
+                <div class="layui-layout layui-layout-admin">
+                    <div class="layui-header" style="background:deeppink">
+                        <div class="layui-logo" style="color: deepskyblue">课程管理</div>
+                        <br>
+                        <div style="position: absolute; top: 10px; right: 15px;">
+                            <div class="seek" style="position: absolute; top: 1px; right: 245px;">
+                                <label class="layui-form-label" style="color: #FFFFFF;">搜索</label>
+                            </div>
+                            <div class="layui-input-inline" style="position: absolute; top: 1px; right: 55px;">
+                                <select class="quiz1" name="subject_name" id="name">
+                                    <option value="">请选择课程名称</option>
+                                </select>
+                            </div>
+                            <div style="position: absolute; top: 1px; right: 1px;">
+                                <button class="layui-btn layui-btn-normal " type="button" data-type="reload">
+                                    <i class="layui-icon layui-icon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <table class="layui-hide" id="demo" lay-filter="test"></table>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+                <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+                <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+            </div>
+        </script>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+    </div>
+</div>
+<script>
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'element'], function(){
+        var laydate = layui.laydate //日期
+            ,laypage = layui.laypage //分页
+            ,layer = layui.layer //弹层
+            ,table = layui.table //表格
+            ,element = layui.element//元素操作
+        //执行一个 table 实例
+        table.render({
+            elem: '#demo'
+            ,id:"transferTable"// 父窗体table id
+            ,height: 440
+            ,url: 'course/findByCourse.do' //数据接口
+            ,title: '用户表'
+            ,toolbar: '#toolbarDemo'
+            ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                // ,curr: 5 //设定初始在第 5 页NOT_MODIFIED
+                // ,groups: 1 //只显示 1 个连续页码
+                ,first: false //不显示首页
+                ,last: false //不显示尾页
+                ,limits:[5, 10, 20]
+            } //开启分页
+            ,cols: [[ //表头
+                {type: 'checkbox', fixed: 'left'}
+                ,{field:'id', title:'序号', width:80, fixed: 'left', unresize: true, sort: true}
+                ,{field: 'subject_name', title: '所属学科', width:120}
+                ,{field: 'course_title', title: '标题', width:120, sort: true}
+                ,{field: 'course_desc', title: '简介', width:500, sort:true}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+            ]]
+        });
+
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            if(layEvent === 'del'){
+                layer.confirm('真的删除" ' + data.course_title + ' "么', function(index){
+                    obj.del();
+                    layer.close(index);
+                    // 向服务器发送指令
+                    $.ajax({
+                        type:"get",
+                        url:"course/deleteCourse.do?id=" + data.id,
+                        dataType:"json",
+                        success:function (data) {
+                            if (data.code == 1) {
+                                parent.layer.msg('删除成功', {icon: 1,time:2000,shade:0.2});
+                                table.reload('transferTable');
+                                // table.reload(); // 重新加载页面,demo 表示父窗体table标签的id值
+                            } else {
+                                parent.layer.msg('删除失败', {icon: 2,time:2000,shade:0.2});
+                            }
+                        }
+                    })
+                });
+            } else if(layEvent === 'edit'){
+                layer.open({
+                    type:2,
+                    title: '修改信息',
+                    area:['800px', '500px'],
+                    content: 'modifyCourse.html?id=' + data.id
+                })
+            }
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id),
+                data = checkStatus.data;
+            switch(obj.event){
+                case 'add':
+                    layer.open({
+                        type:2
+                        , title: '添加信息'
+                        , area:['800px', '500px']
+                        , content: 'addCourse.html'
+                    })
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                    break;
+            };
+        });
+
+        var active = {
+            reload: function(){
+                //执行重载
+                table.reload('transferTable', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: { // 额外需要提交的参数
+                        subject_name:$("#name").val()
+                    }
+                });
+            }
+        };
+
+        $('.searchDiv .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    })
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type:"post",
+            url:"subject/findAll.do",
+            dataType:"json",
+            success:function (data) {
+                if (data.code == 1) {
+                    var infos = data.info;
+                    $(infos).each(function () {
+                        var html = '<option value ="' + this.subject_name +'">' + this.subject_name + '</option>';
+                        $(".quiz1").append($(html))
+                    })
+                } else {
+                    alert(data.info);
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>
