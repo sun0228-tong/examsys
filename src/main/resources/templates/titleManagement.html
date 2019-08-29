@@ -9,10 +9,10 @@
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-    <div class="layui-header">
+    <div class="layui-header" style="background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#00FF00), to(#f6f6f8));">
         <div class="layui-logo">试题管理</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
-        <ul class="layui-nav layui-layout-left">
+        <ul class="layui-nav layui-layout-left" >
             <li class="layui-nav-item">
                 <a href="javascript:;">试题管理</a>
                 <dl class="layui-nav-child">
@@ -39,9 +39,9 @@
     </div>
 
     <div class="layui-side layui-bg-black">
-        <div class="layui-side-scroll">
+        <div class="layui-side-scroll" style="background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#00FF00), to(#f6f6f8));">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test" style="background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#00FF00), to(#f6f6f8));">
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">所有商品</a>
                     <dl class="layui-nav-child">
@@ -56,19 +56,9 @@
     </div>
 
     <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <div style="padding: 15px;">
-            <iframe name="myframe" width="100%" height="100%" frameborder="0"></iframe>
-        </div>
-
+        <iframe name="myframe" width="100%" height="100%" frameborder="0"></iframe>
     </div>
 
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        © layui.com - 底部固定区域
-    </div>
-</div>
-<script src="../layui/layui.js"></script>
 <script>
     //JavaScript代码区域
     layui.use('element', function(){
