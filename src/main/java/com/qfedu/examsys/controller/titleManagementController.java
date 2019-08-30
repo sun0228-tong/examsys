@@ -2,8 +2,10 @@ package com.qfedu.examsys.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qfedu.examsys.entity.ChoiceQuestion;
+import com.qfedu.examsys.service.ChoiceService;
 import com.qfedu.examsys.utils.ExcelUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +27,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/title")
 public class titleManagementController {
+
+    @Autowired
+    private ChoiceService choiceService;
 
     /**
      * 跳转到试题管理页面
@@ -39,18 +45,19 @@ public class titleManagementController {
         // 获取上传文件的输入流对象
         try {
             InputStream inputStream = upChoice.getInputStream();
-
+            // 获取上传文件名称
             String filename = upChoice.getOriginalFilename();
-
+            // 获取数据行数
             List<Map<String, Object>> list = ExcelUtils.readExcel(filename, inputStream);
 
             ObjectMapper objectMapper = new ObjectMapper();
 
             String jsonStr = objectMapper.writeValueAsString(list);
             // 将 json 格式的字符串转为指定类型的对象
-            List<ChoiceQuestion> list1 = objectMapper.readValue(jsonStr, new TypeReference<List<ChoiceQuestion>>() {});
+            List<ChoiceQuestion> list1 = objectMapper.readValue(jsonStr, new TypeReference<List<ChoiceQuestion>>(){});
 
-            System.out.println(list1);
+            choiceService.addChoiceTitle(list1);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
