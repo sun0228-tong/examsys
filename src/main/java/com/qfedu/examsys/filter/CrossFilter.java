@@ -8,9 +8,11 @@ import java.io.IOException;
 
 @WebFilter(filterName = "CrossFilter",urlPatterns = "/*")
 public class CrossFilter implements Filter {
+    @Override
     public void destroy() {
     }
 
+    @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
 
@@ -24,6 +26,7 @@ public class CrossFilter implements Filter {
         chain.doFilter(req, resp);
     }
 
+    @Override
     public void init(FilterConfig config) throws ServletException {
 
     }

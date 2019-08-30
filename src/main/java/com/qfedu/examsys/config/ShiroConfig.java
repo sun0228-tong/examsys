@@ -64,6 +64,10 @@ public class ShiroConfig {
 
         filterChainDefinitionMap.put("/login", "anon");
 
+        // 过滤试卷
+        filterChainDefinitionMap.put("/title/**", "anon");
+
+
         filterChainDefinitionMap.put("/admin/**", "authc");
         filterChainDefinitionMap.put("/user/**", "authc");
 
@@ -154,7 +158,7 @@ public class ShiroConfig {
 
     public MyShiroLogoutFilter shiroLogoutFilter() {
         MyShiroLogoutFilter filter = new MyShiroLogoutFilter();
-        filter.setRedirectUrl("/login");
+//        filter.setRedirectUrl("/login");
         return filter;
     }
 }
