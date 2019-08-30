@@ -19,4 +19,12 @@ public interface ChoiceDao {
      * @param choiceTitle 传入的对象是一个 ChoiceQuestion 类对象
      */
     public void addChoiceTitle(@Param("choiceTitle") List<ChoiceQuestion> choiceTitle);
+
+    /**
+     * 查询所有选择题，采用layui中的分页查询
+     * @param page 页
+     * @param limit 范围
+     * @return 返回的是一个 ChoiceQuestion 的集合
+     */
+    public List<ChoiceQuestion> findByChoiceAll(Integer page, Integer limit);
 }

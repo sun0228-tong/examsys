@@ -19,4 +19,8 @@
             #{item.subjectId})
         </foreach>
     </insert>
+
+    <select id="findByChoiceAll" resultType="choiceQuestion" parameterType="list">
+        select * from choice_question
+    </select>
 </mapper>
