@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qfedu.examsys.dao.SysDao">
+
+    <resultMap id="authorityMap" type="com.qfedu.examsys.vo.VAuthority">
+
+        <result column="pmenu" property="pmenu"></result>
+        <collection property="listAuthority" javaType="list" ofType="authority">
+            <result column="cmenu" property="cmenu"></result>
+            <result column="url" property="url"></result>
+        </collection>
+    </resultMap>
+
+    <select id="query" parameterType="int" resultMap="authorityMap">
+
+        select distinct p.pid,p.resourceName pmenu,c.resourceName cmenu,c.pid cid,c.url from permission p
+        inner join permission c
+        on p.pid = c.parentId
+        inner join role_permission rp
+        on rp.pid = c.pid
+        inner join user_role ur
+        on ur.rid = rp.rid
+        where ur.uid = #{uid} and c.resourceType = 'menu'
+
+    </select>
+
+</mapper>
