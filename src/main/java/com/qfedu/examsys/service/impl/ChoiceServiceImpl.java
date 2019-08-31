@@ -1,10 +1,11 @@
 package com.qfedu.examsys.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.qfedu.examsys.dao.ChoiceDao;
 import com.qfedu.examsys.entity.ChoiceQuestion;
 import com.qfedu.examsys.service.ChoiceService;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +32,11 @@ public class ChoiceServiceImpl implements ChoiceService {
     }
 
     @Override
-    public Map<String, Object> findByChoiceAll(Integer page, Integer limit) {
+    public Map<String, Object> findByChoiceAll(Integer subjectId, Integer page, Integer limit) {
         // 设置页码和每页显示的记录数，该语句后面，紧跟着数据库查询相关的语句
         PageHelper.startPage(page, limit);
-        List<ChoiceQuestion> list = choiceDao.findByChoiceAll(page, limit);
-
+        List<ChoiceQuestion> list = choiceDao.findByChoiceAll(subjectId, page, limit);
         Map<String, Object> map = new HashMap<>();
-
         long total = ((Page) list).getTotal();
         map.put("code", 0);
         map.put("msg", "");
@@ -46,5 +45,20 @@ public class ChoiceServiceImpl implements ChoiceService {
         // 获取到的分页数据
         map.put("data", list);
         return map;
+    }
+
+    @Override
+    public ChoiceQuestion findById(Integer cid) {
+        return choiceDao.findById(cid);
+    }
+
+    @Override
+    public void deleteChoice(Integer cid) {
+        choiceDao.deleteChoice(cid);
+    }
+
+    @Override
+    public void updateChoice(ChoiceQuestion choiceQuestion) {
+        choiceDao.updateChoice(choiceQuestion);
     }
 }

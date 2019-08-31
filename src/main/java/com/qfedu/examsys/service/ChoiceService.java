@@ -25,5 +25,26 @@ public interface ChoiceService {
      * @param limit
      * @return
      */
-    public Map<String, Object> findByChoiceAll(Integer page, Integer limit);
+    public Map<String, Object> findByChoiceAll(Integer page,
+                                               Integer limit,
+                                               Integer subjectId);
+
+    /**
+     * 查询一条记录
+     * @param cid 传入的参数是题目id
+     * @return 查询到返回一条记录
+     */
+    public ChoiceQuestion findById(Integer cid);
+
+    /**
+     * 删除一条选择题
+     * @param cid 传入的参数是题目ID
+     */
+    public void deleteChoice(Integer cid);
+
+    /**
+     * 修改一条选择题信息
+     * @param choiceQuestion 传入的对象是一个 ChoiceQuestion 类对象
+     */
+    public void updateChoice(ChoiceQuestion choiceQuestion);
 }

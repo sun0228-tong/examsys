@@ -20,4 +20,6 @@ public class ChoiceQuestion {
     private String choiceD;
     private String rightAnswer;
     private Integer subjectId;
+    // 页面显示需要学科 Name
+    private String subjectName;
 }
