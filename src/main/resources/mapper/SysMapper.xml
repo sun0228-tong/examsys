@@ -27,4 +27,64 @@
 
     </select>
 
+    <select id="queryUser" resultType="com.qfedu.examsys.vo.VUser">
+
+        select * from user u
+        inner join user_role ur
+        on ur.uid = u.uid
+        inner join role r
+        on r.rid = ur.rid
+
+    </select>
+    
+    <delete id="deleteById" parameterType="int">
+        
+        delete from user where uid = #{uid}
+        
+    </delete>
+    
+    <select id="findById" parameterType="int" resultType="com.qfedu.examsys.vo.VUser">
+        
+        select * from user u
+        inner join user_role ur
+        on ur.uid = u.uid
+        inner join role r
+        on r.rid = ur.rid
+        where u.uid = #{uid}
+        
+    </select>
+    
+    <update id="updateById" parameterType="user">
+
+        update user
+        <set>
+            <if test="userName != null &amp;&amp; userName != ''">
+                userName = #{userName},
+            </if>
+            <if test="password != null &amp;&amp; password != ''">
+                password = #{password},
+            </if>
+        </set>
+        where uid = #{uid};
+        
+    </update>
+
+    <insert id="addUser" parameterType="com.qfedu.examsys.vo.VUser" useGeneratedKeys="true" keyProperty="uid">
+
+        insert into user(userName,password) values (#{userName},#{password})
+
+    </insert>
+
+    <insert id="addRole" parameterType="map" >
+
+        insert into user_role(uid, rid) VALUES (#{uid},#{rid})
+
+    </insert>
+
+    <update id="updateRole" parameterType="map">
+
+        update user_role set rid = #{rid} where uid = #{uid}
+
+    </update>
+
 </mapper>
