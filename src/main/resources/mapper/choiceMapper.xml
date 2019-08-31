@@ -20,7 +20,59 @@
         </foreach>
     </insert>
 
-    <select id="findByChoiceAll" resultType="choiceQuestion" parameterType="list">
-        select * from choice_question
+    <select id="findByChoiceAll" parameterType="list" resultType="choiceQuestion">
+        select
+        c.*,
+        s.subjectName
+        from
+        choice_question c
+        inner join
+        subject s
+        on
+        c.subjectId = s.sid
+        where 1 = 1
+        <if test="subjectId != null and subjectId != ''">
+            and c.subjectId like s.sid
+        </if>
     </select>
+
+    <select id="findById" parameterType="int" resultType="choiceQuestion">
+        select * from choice_question where cid = #{cid}
+    </select>
+
+    <delete id="deleteChoice" parameterType="int">
+        delete from choice_question where cid = #{cid}
+    </delete>
+
+    <update id="updateChoice" parameterType="choiceQuestion">
+        update
+        choice_question
+        <set>
+            <if test="score != null and score != ''">
+                score = #{score},
+            </if>
+            <if test="question != null and question != ''">
+                question = #{question},
+            </if>
+            <if test="choiceA != null and choiceA != ''">
+                choiceA = #{choiceA},
+            </if>
+            <if test="choiceB != null and choiceB != ''">
+                choiceB = #{choiceB},
+            </if>
+            <if test="choiceC != null and choiceC != ''">
+                choiceC = #{choiceC},
+            </if>
+            <if test="choiceD != null and choiceD != ''">
+                choiceD = #{choiceD},
+            </if>
+            <if test="rightAnswer != null and rightAnswer != ''">
+                rightAnswer = #{rightAnswer},
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+                subjectId = #{subjectId}
+            </if>
+        </set>
+        where cid = #{cid}
+    </update>
 </mapper>

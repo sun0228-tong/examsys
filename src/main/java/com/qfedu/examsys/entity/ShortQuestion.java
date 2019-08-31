@@ -1,5 +1,7 @@
 package com.qfedu.examsys.entity;
 
+import lombok.Data;
+
 /**
  * @Description TODO
  * @Name ShortQuestion 简答题
@@ -7,6 +9,7 @@ package com.qfedu.examsys.entity;
  * @Date 2019/8/28 23:05
  * @Version V1.0
  */
+@Data
 public class ShortQuestion {
     private Integer sid;
     private Integer score;

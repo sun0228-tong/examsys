@@ -8,6 +8,7 @@ import com.qfedu.examsys.utils.ExcelUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -91,9 +92,53 @@ public class titleManagementController {
 
     @RequestMapping("/choiceAll")
     @ResponseBody
-    public Map<String, Object> findByChoiceAll(Integer page, Integer limit) {
-        Map<String, Object> map = choiceService.findByChoiceAll(page, limit);
+    public Map<String, Object> findByChoiceAll(Integer subjectId, Integer page, Integer limit) {
+        Map<String, Object> map = choiceService.findByChoiceAll(subjectId, page, limit);
         return map;
     }
 
+    /**
+     * 查询一条记录
+     * @param cid 传入的参数是一选择题id
+     * @return 查询到返回一条记录
+     */
+    @RequestMapping("/findByChoiceId")
+    @ResponseBody
+    public JsonResult findByChoiceId(Integer cid) {
+        ChoiceQuestion choice = choiceService.findById(cid);
+        return new JsonResult(1, choice);
+    }
+
+    /**
+     * 删除一条选择题
+     * @param cid 传入的参数是选择题ID
+     * @return 删除成功返回1，未成功返回0
+     */
+    @RequestMapping("/deleteChoice")
+    @ResponseBody
+    public JsonResult deleteChoice(Integer cid) {
+        choiceService.deleteChoice(cid);
+        return new JsonResult(1, null);
+    }
+
+    /**
+     * 修改一条选择题信息
+     * @param choiceQuestion 传入的对象是一个 choiceQuestion 类对象
+     * @return 修改成功返回1，不成功返回0
+     */
+    @RequestMapping("/modifyChoice")
+    @ResponseBody
+    public JsonResult updateChoice(ChoiceQuestion choiceQuestion) {
+        choiceService.updateChoice(choiceQuestion);
+        return new JsonResult(1, null);
+    }
+
+    /**
+     * 跳转到修改信息页面
+     * @return 返回到修改信息页面
+     */
+    @RequestMapping("/skipModifyChoice")
+    public String skipModifyChoice() {
+        return "modifyChoice";
+    }
 }

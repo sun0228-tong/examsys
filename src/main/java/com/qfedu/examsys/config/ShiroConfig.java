@@ -66,6 +66,8 @@ public class ShiroConfig {
 
         // 过滤试卷
         filterChainDefinitionMap.put("/title/**", "anon");
+        // 过滤学科，下拉菜单使用
+        filterChainDefinitionMap.put("/subject/**", "anon");
 
 
         filterChainDefinitionMap.put("/admin/**", "authc");
