@@ -12,6 +12,7 @@ public class Mchoice {
 //    private char[] answer;
     private List<String> answer;
     private String analysis;
+    private Integer score;
 
     public Mchoice() {
         setType(2);

@@ -11,6 +11,7 @@ public class Choice {
     private List<String> options;
     private List<String> answer;
     private String analysis;
+    private Integer score;
 
     public Choice() {
         setType(1);

@@ -13,7 +13,7 @@ public class ExamintionController {
     @Autowired
     private ExaminationService examinationService;
 
-    @RequestMapping("examination")
+    @RequestMapping("examination.do")
     public Testpaper examination(Integer subjectId) {
         return examinationService.generate(subjectId);
     }

@@ -27,6 +27,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         for (ChoiceQuestion question : choiceQuestions) {
             Choice choice = new Choice();
             choice.setQuestionStem(question.getQuestion());
+            choice.setScore(question.getScore());
 
             List<String> options = new ArrayList<>();
             options.add(question.getChoiceA());
@@ -50,6 +51,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         for (MchoiceQuestion question : mchoiceQuestions) {
             Mchoice mchoice = new Mchoice();
             mchoice.setQuestionStem(question.getQuestion());
+            mchoice.setScore(question.getScore());
 
             ArrayList<String> options = new ArrayList<>();
             options.add(question.getChoiceA());
@@ -76,6 +78,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         for (JudgeQuestion question : judgeQuestions) {
             Judge judge = new Judge();
             judge.setQuestionStem(question.getQuestion());
+            judge.setScore(question.getScore());
 
             List<String> options = new ArrayList<>();
             options.add("");
@@ -90,12 +93,13 @@ public class ExaminationServiceImpl implements ExaminationService {
         judges.setValues(judges1);
 
 
-        List<ShortQuestion> shortQuestions = examinationDao.shortQuestionList(subjectId,3);
+        List<ShortQuestion> shortQuestions = examinationDao.shortQuestionList(subjectId,5);
         Shorts shorts = new Shorts();
         List<Shorta> shorts1 = new ArrayList<>();
         for (ShortQuestion question : shortQuestions) {
             Shorta shorta = new Shorta();
             shorta.setQuestionStem(question.getQuestion());
+            shorta.setScore(question.getScore());
 
             List<String> options = new ArrayList<>();
             options.add("");

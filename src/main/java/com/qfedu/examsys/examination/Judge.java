@@ -11,6 +11,7 @@ public class Judge {
     private List<String> options;
     private List<String> answer;
     private String analysis;
+    private Integer score;
 
     public Judge() {
         setType(3);
