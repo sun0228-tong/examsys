@@ -20,7 +20,7 @@ public class ScoreManagementController {
     @Autowired
     private ScoreManagementServiceImpl scoreManagementService;
 
-    @RequestMapping("/MarkPapers/findScoreManage.do")
+    @RequestMapping("/markPapers/findScoreManage.do")
     @ResponseBody
     public Map<String, Object> findScoreManage(Integer page, Integer limit, Integer sid) {
         return scoreManagementService.findAllScoreManage(page, limit, sid);
