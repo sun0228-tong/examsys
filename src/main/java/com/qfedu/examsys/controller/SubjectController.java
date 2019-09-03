@@ -20,10 +20,11 @@ import java.util.List;
  * @Version V1.0
  */
 @Controller
+@ResponseBody
 @RequestMapping("/subject")
 public class SubjectController {
 
-    @Autowired(required = false)
+    @Autowired
     private SubjectService subjectService;
 
     /**
@@ -31,8 +32,9 @@ public class SubjectController {
      * @return 返回查询到的记录
      */
     @RequestMapping("/findBySubjectAll")
-    @ResponseBody
+
     public JsonResult findBySubjectAll() {
+
         List<Subject> list = subjectService.findAll();
         return new JsonResult(1, list);
     }
