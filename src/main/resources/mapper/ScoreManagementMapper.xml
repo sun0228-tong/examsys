@@ -16,14 +16,15 @@
                 <result column="subjectName" property="subjectName"/>
             </association>
             <association property="examManage">
+                <id column="eid" property="eid"/>
                 <result column="applyStart" property="applyStart"/>
                 <result column="applyEnd" property="applyEnd"/>
             </association>
         </association>
     </resultMap>
     
-    <select id="findAllScoreManage" parameterType="int" resultMap="vScoreManageMap">
-        select sm.sid, sm.score, st.studentName, su.subjectName, em.applyEnd, em.applyStart
+    <select id="findAllScoreManage" parameterType="map" resultMap="vScoreManageMap">
+        select sm.sid, sm.score, st.studentName, su.subjectName, em.eid, em.applyEnd, em.applyStart
         from score_manage sm
         inner join apply_message am
         on sm.applyManageId = am.aid
@@ -34,14 +35,20 @@
         inner join exam_manage em
         on am.examManageId = em.eid
         <where>
-            <if test="sid != null">
-                sm.sid = #{sid}
+            <if test="eid != null">
+                and em.eid = #{eid}
+            </if>
+            <if test="studentName != null and studentName != ''">
+                and st.studentName = #{studentName}
+            </if>
+            <if test="subjectName != null and subjectName != ''">
+                and su.subjectName = #{subjectName}
             </if>
         </where>
     </select>
 
-    <select id="findByStudentNameOrSubjectNameScoreManage" parameterType="string" resultMap="vScoreManageMap">
-        select sm.score, st.studentName, su.subjectName, em.applyEnd, em.applyStart
+    <select id="findByIdScoreManage" parameterType="int" resultMap="vScoreManageMap">
+        select sm.sid, sm.score, st.studentName, su.subjectName, em.eid, em.applyEnd, em.applyStart
         from score_manage sm
         inner join apply_message am
         on sm.applyManageId = am.aid
@@ -51,15 +58,43 @@
         on am.subjectId = su.sid
         inner join exam_manage em
         on am.examManageId = em.eid
-        <where>
-            <if test="studentName != null or studentName != ''">
-                st.studentName = #{studentName}
-            </if>
-            <if test="subjectName != null or subjectName != ''">
-                or su.subjectName = #{subjectName}
-            </if>
-        </where>
+        where sm.sid = #{sid}
     </select>
+
+    <select id="findAllSubject" resultType="com.qfedu.examsys.entity.Subject">
+        select * from subject;
+    </select>
+
+    <update id="updateScoreManage" parameterType="com.qfedu.examsys.vo.VScoreManage">
+        update
+        score_manage sm
+        inner join apply_message am
+        on sm.applyManageId = am.aid
+        inner join student st
+        on am.studentId = st.sid
+        inner join subject su
+        on am.subjectId = su.sid
+        inner join exam_manage em
+        on am.examManageId = em.eid
+        <set>
+            <if test="score != null and score != ''">
+                sm.score = #{score},
+            </if>
+            <if test="studentName != null and studentName != ''">
+                st.studentName = #{studentName},
+            </if>
+            <if test="subjectName != null and subjectName != ''">
+                su.subjectName = #{subjectName},
+            </if>
+            <if test="applyStart != null">
+                em.applyStart = #{applyStart},
+            </if>
+            <if test="applyEnd != null">
+                em.applyEnd = #{applyEnd}
+            </if>
+        </set>
+        where sm.sid = #{sid}
+    </update>
 
     <delete id="delScoreById" parameterType="int">
 

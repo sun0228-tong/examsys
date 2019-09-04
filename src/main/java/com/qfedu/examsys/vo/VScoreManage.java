@@ -2,6 +2,8 @@ package com.qfedu.examsys.vo;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @ClassName VScoreManage
  * @Description TODO
@@ -14,4 +16,8 @@ public class VScoreManage {
     private Integer studentId;
     private VApplyMessage vApplyMessage;
     private String score;
+    private String studentName;
+    private String subjectName;
+    private Date applyStart;
+    private Date applyEnd;
 }

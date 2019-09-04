@@ -1,6 +1,7 @@
 package com.qfedu.examsys.controller;
 
 import com.qfedu.examsys.service.impl.ScoreManagementServiceImpl;
+import com.qfedu.examsys.vo.VScoreManage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +21,27 @@ public class ScoreManagementController {
     @Autowired
     private ScoreManagementServiceImpl scoreManagementService;
 
-    @RequestMapping("/markPapers/findScoreManage.do")
+    @RequestMapping("/scoreInquiry/findAllScoreManage.do")
     @ResponseBody
-    public Map<String, Object> findScoreManage(Integer page, Integer limit, Integer sid) {
-        return scoreManagementService.findAllScoreManage(page, limit, sid);
+    public Map<String, Object> findAllScoreManage(Integer page, Integer limit, String studentName, String subjectName, Integer eid) {
+        return scoreManagementService.findAllScoreManage(page, limit, studentName, subjectName, eid);
     }
 
+    @RequestMapping("/scoreInquiry/findByIdScoreManage.do")
+    @ResponseBody
+    public Map<String, Object> findByIdScoreManage(Integer sid) {
+        return scoreManagementService.findByIdScoreManage(sid);
+    }
 
+    @RequestMapping("/scoreInquiry/findAllSubject.do")
+    @ResponseBody
+    public Map<String, Object> findAllSubject() {
+        return scoreManagementService.findAllSubject();
+    }
 
+    @RequestMapping("/scoreInquiry/updateScoreManage.do")
+    @ResponseBody
+    public Map<String, Object> updateScoreManage(VScoreManage vScoreManage) {
+        return scoreManagementService.updateScoreManage(vScoreManage);
+    }
 }
