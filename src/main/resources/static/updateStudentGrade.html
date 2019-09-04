@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="layui/css/layui.css"/>
+    <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="js/gainUrlparameter.js"></script>
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>修改视频课程信息</legend>
+</fieldset>
+<form class="layui-form" action="" lay-filter="example">
+    <input type="hidden" name="sid">
+    <div class="layui-form-item">
+        <label class="layui-form-label">考试成绩</label>
+        <div class="layui-input-block">
+            <input type="text" name="score" required  lay-verify="score" placeholder="请输入考试成绩" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">学生姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="studentName" required  lay-verify="studentName" placeholder="请输入学生姓名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属学科</label>
+        <div class="layui-input-block">
+            <select name="subjectName" lay-verify="subjectName" id="key">
+                <option value="">所属学科</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">考试报名开始时间</label>
+        <div class="layui-input-block">
+            <input type="text" name="applyStart" lay-verify="applyStart" placeholder="请输入考试报名开始时间" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">考试报名结束时间</label>
+        <div class="layui-input-block">
+            <input type="text" name="applyEnd" lay-verify="applyEnd" placeholder="请输入考试报名开始时间" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script>
+
+    // 表单数据初始化
+    layui.use(['laydate', 'layer', 'form'], function () {
+        var layer = layui.layer;
+        var form = layui.form;
+        var laydate = layui.laydate;
+        var sid = decodeURI($.getUrlVar('sid'));
+        // 初始化下拉菜单
+        $.ajax({
+            type: "get",
+            url: "scoreInquiry/findAllSubject.do",
+            async:false,
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 0) {
+                    $(data.info).each(function () {
+                        var html = '<option value="' + this.subjectName + '">' + this.subjectName + '</option>';
+                        $("#key").append($(html))
+                    });
+                    form.render("select");
+                } else {
+                    layer.msg("获取数据异常");
+                }
+            }
+        });
+
+        // 初始化整体数据
+        $.ajax({
+            type:"get",
+            url:"scoreInquiry/findByIdScoreManage.do",
+            data: {'sid':sid},
+            async:false,
+            dataType:"json",
+            success:function(data){
+                if(data.code == 0){
+                    //表单初始赋值
+                    form.val('example', {
+                        'sid':data.info.sid,
+                        'score':data.info.score,
+                        'studentName':data.info.vapplyMessage.student.studentName,
+                        'subjectName':data.info.vapplyMessage.subject.subjectName,
+                        'applyStart':data.info.vapplyMessage.examManage.applyStart,
+                        'applyEnd':data.info.vapplyMessage.examManage.applyEnd
+                    });
+                }else{
+                    alert(data.info);
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+
+            $.ajax({
+                type: "post",
+                url: "scoreInquiry/updateScoreManage.do",
+                data: data.field,
+                dataType: "json",
+                success: function (data) {  //{code:1,info:....}
+                    if (data.code == 0) {
+                        layer.msg(data.info);
+                        var t = parent.layui.table;
+                        t.reload('emPage');// 重新加载页面,表示父窗体table标签的id值
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                    } else {
+                        layer.msg(data.info);
+                    }
+                },
+                error:function (data) {
+                    alert("ajax:error");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
