@@ -14,7 +14,7 @@ public class ExamintionController {
     private ExaminationService examinationService;
 
     @RequestMapping("examination.do")
-    public Testpaper examination(Integer subjectId) {
+    public Testpaper examination(Integer subjectId,String token) {
         return examinationService.generate(subjectId);
     }
 }
