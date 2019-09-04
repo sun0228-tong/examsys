@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>导入单选题</title>
+    <title>导入判断题</title>
     <link rel="stylesheet" href="../layui/css/layui.css" />
     <script type="text/javascript" src="../layui/layui.js" ></script>
     <script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
@@ -10,7 +10,7 @@
 <body>
 
 <div>
-    <button type='button' class='layui-btn' id='test'><i class='layui-icon'>&#xe67c;</i>导入单选题</button>
+    <button type='button' class='layui-btn' id='test'><i class='layui-icon'>&#xe67c;</i>导入判断题</button>
 </div>
 <div id="win" style="display:none" class="layui-progress layui-progress-big" lay-showPercent="yes" lay-filter="progressBar">
     <div class="layui-progress-bar layui-bg-red" lay-percent="0%"></div>
@@ -23,7 +23,7 @@
 </div>
 
 <div>
-    <img src="../img/choiceDemo.jpg" alt="导入单选题模板" style="width: 800px; height: 300px;">
+    <img src="../img/judgeDemo.jpg" alt="导入判断题模板" style="width: 800px; height: 300px;">
 </div>
 
 </body>
@@ -38,7 +38,7 @@
         //执行实例
         var uploadInst = upload.render({
             elem: '#test' //绑定元素
-            ,url: 'http://localhost:8080/examsys/title/importChoiceTitle' //上传接口
+            ,url: 'http://localhost:8080/examsys/judge/importJudge' //上传接口
             ,accept: 'file'
             ,data: {path:$("#path").val()}
             ,progress: function(e , percent) {

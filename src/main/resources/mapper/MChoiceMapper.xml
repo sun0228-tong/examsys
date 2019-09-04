@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qfedu.examsys.dao.MChoiceDao">
+    <insert id="addMChoiceTitle" parameterType="list">
+        insert into
+        mchoice_question(score, question, choiceA, choiceB, choiceC, choiceD, rightAnswer, subjectId)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (1,
+            #{item.question},
+            #{item.choiceA},
+            #{item.choiceB},
+            #{item.choiceC},
+            #{item.choiceD},
+            #{item.rightAnswer},
+            #{item.subjectId})
+        </foreach>
+    </insert>
+
+    <select id="findAll" parameterType="list" resultType="mChoiceQuestion">
+        select
+        m.*,
+        s.subjectName
+        from
+        mchoice_question m
+        inner join
+        subject s
+        on
+        m.subjectId = s.sid
+        where 1 = 1
+        <if test="subjectName != null and subjectName != ''">
+            and s.subjectName = #{subjectName}
+        </if>
+    </select>
+
+    <select id="findById" parameterType="int" resultType="mChoiceQuestion">
+        select
+        m.*,
+        s.subjectName
+        from
+        mchoice_question m
+        inner join
+        subject s
+        on
+        m.subjectId = s.sid
+        where m.mid = #{mid}
+    </select>
+
+    <delete id="deleteMChoice" parameterType="int">
+        delete from mchoice_question where mid = #{mid}
+    </delete>
+
+    <update id="updateMChoice" parameterType="mChoiceQuestion">
+        update
+        mchoice_question
+        <set>
+            <if test="score != null and score != ''">
+                score = #{score},
+            </if>
+            <if test="question != null and question != ''">
+                question = #{question},
+            </if>
+            <if test="choiceA != null and choiceA != ''">
+                choiceA = #{choiceA},
+            </if>
+            <if test="choiceB != null and choiceB != ''">
+                choiceB = #{choiceB},
+            </if>
+            <if test="choiceC != null and choiceC != ''">
+                choiceC = #{choiceC},
+            </if>
+            <if test="choiceD != null and choiceD != ''">
+                choiceD = #{choiceD},
+            </if>
+            <if test="rightAnswer != null and rightAnswer != ''">
+                rightAnswer = #{rightAnswer},
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+                subjectId = #{subjectId}
+            </if>
+        </set>
+        where mid = #{mid}
+    </update>
+</mapper>

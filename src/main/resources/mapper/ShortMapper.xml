@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qfedu.examsys.dao.ShortDao">
+    <insert id="addShortTitle" parameterType="list">
+        insert into
+        short_question(score, question, rightAnswer, subjectId)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (1,
+            #{item.question},
+            #{item.rightAnswer},
+            #{item.subjectId})
+        </foreach>
+    </insert>
+
+    <select id="findAll" parameterType="list" resultType="shortQuestion">
+        select
+        short.*,
+        s.subjectName
+        from
+        short_question short
+        inner join
+        subject s
+        on short.subjectId = s.sid
+        where 1 = 1
+        <if test="subjectName != null and subjectName != ''">
+            and s.subjectName = #{subjectName}
+        </if>
+    </select>
+
+    <select id="findById" parameterType="int" resultType="shortQuestion">
+        select
+        short.*,
+        s.subjectName
+        from
+        short_question short
+        inner join
+        subject s
+        on short.subjectId = s.sid
+        where short.sid = #{sid}
+    </select>
+
+    <delete id="deleteShort" parameterType="int">
+        delete from short_question where sid = #{sid}
+    </delete>
+
+    <update id="modifyShort" parameterType="shortQuestion">
+        update
+        short_question
+        <set>
+            <if test="score != null and score != ''">
+                score = #{score},
+            </if>
+            <if test="question != null and question != ''">
+                question = #{question},
+            </if>
+            <if test="rightAnswer != null and rightAnswer != ''">
+                rightAnswer = #{rightAnswer},
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+                subjectId = #{subjectId}
+            </if>
+        </set>
+        where sid = #{sid}
+    </update>
+</mapper>

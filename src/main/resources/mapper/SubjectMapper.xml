@@ -9,4 +9,23 @@
         select * from subject
     </select>
 
+    <select id="findById" parameterType="int" resultType="subject">
+        select * from subject where sid = #{sid}
+    </select>
+
+    <insert id="addSubject" parameterType="subject">
+        insert into subject(subjectName) values (#{subjectName})
+    </insert>
+
+    <update id="modifySubject" parameterType="subject">
+        update
+        subject
+        <set>
+            <if test="subjectName != null and subjectName != ''">
+                subjectName = #{subjectName}
+            </if>
+        </set>
+        where sid = #{sid}
+    </update>
+
 </mapper>

@@ -17,4 +17,23 @@ public interface SubjectDao {
      * @return 返回的是查询到的信息
      */
     public List<Subject> findAll();
+
+    /**
+     * 查询一科
+     * @param sid 传入的参数是学科 Id
+     * @return 返回查询到的对象
+     */
+    public Subject findById(Integer sid);
+
+    /**
+     * 添加一科学科信息
+     * @param subject 传入的参数是一个 Subject 类对象
+     */
+    public void addSubject(Subject subject);
+
+    /**
+     * 修改一科学科信息
+     * @param subject 传入的参数是一个 Subject 类对象
+     */
+    public void modifySubject(Subject subject);
 }

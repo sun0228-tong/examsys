@@ -6,6 +6,12 @@
     <title>试题管理</title>
     <link rel="stylesheet" href="../layui/css/layui.css" />
     <script type="text/javascript" src="../layui/layui.js" ></script>
+
+    <style type="text/css">
+        .layui-body{
+            bottom:0px!important;
+        }
+    </style>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -43,12 +49,13 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test" style="background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#00FF00), to(#f6f6f8));">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">所有商品</a>
+                    <a class="" href="javascript:;">试题管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/examsys/title/skipChoice" target="myframe">选择题管理</a></dd>
-                        <dd><a href="javascript:;">判断题管理</a></dd>
-                        <dd><a href="javascript:;">简答题管理</a></dd>
-                        <dd><a href="javascript:;">生成试卷</a></dd>
+                        <dd><a href="/examsys/subject/skipSubject" target="myframe">科目管理</a></dd>
+                        <dd><a href="/examsys/title/skipChoice" target="myframe">单选题管理</a></dd>
+                        <dd><a href="/examsys/mChoice/skipListMChoice" target="myframe">多选题管理</a></dd>
+                        <dd><a href="/examsys/judge/skipListJudge" target="myframe">判断题管理</a></dd>
+                        <dd><a href="/examsys/short/skipListShort" target="myframe">简答题管理</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -58,6 +65,7 @@
     <div class="layui-body">
         <iframe name="myframe" width="100%" height="100%" frameborder="0"></iframe>
     </div>
+
 </div>
 <script>
     //JavaScript代码区域

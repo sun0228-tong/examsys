@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>修改单选题信息</title>
+    <title>修改判断题信息</title>
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script type="text/javascript" src="../layui/layui.js" ></script>
     <script type="text/javascript" src="../js/jquery-1.12.4.min.js" ></script>
@@ -11,7 +11,7 @@
 <div>
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
-            <div class="layui-logo">修改单选题信息</div>
+            <div class="layui-logo">修改判断题信息</div>
         </div>
         <br>
         <form class="layui-form" action="" lay-filter="example">
@@ -28,33 +28,10 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">选项A</label>
-                <div class="layui-input-block">
-                    <input type="text" name="choiceA"  lay-verify="required" placeholder="选项A" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">选项B</label>
-                <div class="layui-input-block">
-                    <input type="text" name="choiceB"  lay-verify="required" placeholder="选项B" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">选项C</label>
-                <div class="layui-input-block">
-                    <input type="text" name="choiceC"  lay-verify="required" placeholder="选项C" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">选项D</label>
-                <div class="layui-input-block">
-                    <input type="text" name="choiceD"  lay-verify="required" placeholder="选项D" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
                 <label class="layui-form-label">正确答案</label>
                 <div class="layui-input-block">
                     <input type="text" name="rightAnswer"  lay-verify="required" placeholder="正确答案" autocomplete="off" class="layui-input">
+                    <span style="color: red">1 为 true, 0 为 false</span>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -82,7 +59,7 @@
 
         $.ajax({
             type:"get",
-            url:"/examsys/title/findByChoiceId"+window.location.search,
+            url:"/examsys/judge/findById"+window.location.search,
             dataType: "json",
             success:function (data) {
                 if (data.code == 1) {
@@ -97,7 +74,7 @@
         form.on('submit(demo1)', function(data){
             $.ajax({
                 type:"post",
-                url:"/examsys/title/modifyChoice?cid=" +window.location.search.split('=')[1],
+                url:"/examsys/judge/modifyJudge?jid=" +window.location.search.split('=')[1],
                 data:data.field,
                 dataType:"json",
                 success:function(data){  //{code:1,info:....}

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>单选题管理</title>
+    <title>判断题管理</title>
     <style type="text/css">
         #content{
             /*margin:20px auto;*/
@@ -28,7 +28,7 @@
             <div class="layui-form-item" >
                 <div class="layui-layout layui-layout-admin">
                     <div class="layui-header" style="background: deeppink">
-                        <div class="layui-logo" style="color: deepskyblue">单选题管理</div>
+                        <div class="layui-logo" style="color: deepskyblue">判断题管理</div>
                         <br>
                         <div style="position: absolute; top: 10px; right: 5px;">
                             <div class="layui-input-inline" style="position: absolute; top: 5px; right: 120px;">
@@ -81,8 +81,8 @@
                 elem: '#demo'
                 ,id:"transferTable"// 父窗体table id
                 ,height: 465
-                ,url: '/examsys/title/choiceAll' //数据接口
-                ,title: '单选题管理'
+                ,url: '/examsys/judge/listJudge' //数据接口
+                ,title: '判断题管理'
                 ,toolbar: '#toolbarDemo'
                 ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                     layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
@@ -95,14 +95,13 @@
                 ,cols: [[ //表头
                     {type: 'checkbox', fixed: 'left'}
                     ,{title: '序号', type:'numbers', width: 60, fixed: 'left', sort: true}
-                    , {field: 'score', title: '分数', width: 70, sort: true}
-                    , {field: 'question', title: '题目', width: 300, sort: true}
-                    , {field: 'choiceA', title: '选项A', width: 100, sort: true}
-                    , {field: 'choiceB', title: '选项B', width: 100, sort: true}
-                    , {field: 'choiceC', title: '选项C', width: 100, sort: true}
-                    , {field: 'choiceD', title: '选项D', width: 100, sort: true}
-                    , {field: 'rightAnswer', title: '正确答案', width: 100, sort: true}
-                    , {field: 'subjectName', title: '所属学科', width: 100, sort: true}
+                    , {field: 'score', title: '分数', width: 70}
+                    , {field: 'question', title: '题目', width: 350, sort: true}
+                    , {field: 'rightAnswer', title: '正确答案', width: 200, sort: true,
+                        templet:function(d){
+                            return d.rightAnswer == 0 ? "false" : "true";
+                        }}
+                    , {field: 'subjectName', title: '所属学科', width: 150, sort: true}
                     ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:160}
                 ]]
             })
@@ -113,10 +112,10 @@
                     ,layEvent = obj.event; //获得 lay-event 对应的值
                 if(layEvent === 'detail'){
                     layer.open({
-                        type:2
-                        , title: '查看单选题信息'
-                        , area:['800px', '500px']
-                        , content: '/examsys/title/skipLoopAtAChoice?cid=' + data.cid
+                        type:2,
+                        title: '查看判断题信息',
+                        area:['800px', '500px']
+                        ,content: '/examsys/judge/skipLookAtAJudge?jid=' + data.jid
                     })
                 } else if(layEvent === 'del'){
                     layer.confirm('真的删除么', function(index){
@@ -125,7 +124,7 @@
                         // 向服务器发送指令
                         $.ajax({
                             type:"get",
-                            url:"/examsys/title/deleteChoice?cid=" + data.cid,
+                            url:"/examsys/judge/deleteJudge?jid=" + data.jid,
                             dataType:"json",
                             success:function (data) {
                                 if (data.code == 1) {
@@ -140,10 +139,10 @@
                     });
                 } else if(layEvent === 'edit'){
                     layer.open({
-                        type:2
-                        , title: '修改单选题信息'
-                        , area:['800px', '500px']
-                        , content: '/examsys/title/skipModifyChoice?cid=' + data.cid
+                        type:2,
+                        title: '修改判断题信息',
+                        area:['800px', '500px']
+                        ,content: '/examsys/judge/skipModifyJudge?jid=' + data.jid
                     })
                 }
             });
@@ -189,11 +188,11 @@
         function add() {
             layer.open({
                 type:2
-                , title: '导入单选题'
+                , title: '导入判断题'
                 , area:['800px', '500px']
-                , content: 'http://localhost:8080/examsys/title/choice'
+                , content: 'http://localhost:8080/examsys/judge/skipJudge'
                 , end:function () {
-                    location.reload();　　//layer.open关闭刷新
+                    location.reload(); // layue.open 关闭更新
                 }
             })
         }

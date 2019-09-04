@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>修改单选题信息</title>
+    <title>修改多选题信息</title>
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script type="text/javascript" src="../layui/layui.js" ></script>
     <script type="text/javascript" src="../js/jquery-1.12.4.min.js" ></script>
@@ -11,7 +11,7 @@
 <div>
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
-            <div class="layui-logo">修改单选题信息</div>
+            <div class="layui-logo">修改多选题信息</div>
         </div>
         <br>
         <form class="layui-form" action="" lay-filter="example">
@@ -82,7 +82,7 @@
 
         $.ajax({
             type:"get",
-            url:"/examsys/title/findByChoiceId"+window.location.search,
+            url:"/examsys/mChoice/findById"+window.location.search,
             dataType: "json",
             success:function (data) {
                 if (data.code == 1) {
@@ -97,7 +97,7 @@
         form.on('submit(demo1)', function(data){
             $.ajax({
                 type:"post",
-                url:"/examsys/title/modifyChoice?cid=" +window.location.search.split('=')[1],
+                url:"/examsys/mChoice/modifyMChoice?mid=" +window.location.search.split('=')[1],
                 data:data.field,
                 dataType:"json",
                 success:function(data){  //{code:1,info:....}
@@ -130,7 +130,7 @@
                     $(infos).each(function () {
                         var html = '<option value ="' + this.sid +'">' + this.subjectName + '</option>';
                         $(".quiz1").append($(html));
-                        layui.use('form',function(){
+                        layui.use('form', function(){
                             var form=layui.form;
                             form.render("select");
                         })
