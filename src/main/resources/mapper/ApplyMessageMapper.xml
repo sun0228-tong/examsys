@@ -51,7 +51,7 @@
 
     <select id="findAllByPage" resultType="com.qfedu.examsys.vo.VApplyMessage">
 
-        select studentName, sex, email, phone, subjectName,
+        select aid,studentName, sex, email, phone, subjectName,
         examStart, examEnd, examTime from apply_message am
         inner join student stu
         on am.studentId = stu.sid

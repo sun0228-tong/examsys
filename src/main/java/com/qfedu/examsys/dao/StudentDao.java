@@ -24,6 +24,8 @@ public interface StudentDao {
     public List<Student> findAll();
 
     public List<String> findAllEmail();
+
+    public Student findByStudentName(String name);
 	
 	public Student findByStudentNameAndPassword(@Param("name") String name, @Param("password") String password);
 }

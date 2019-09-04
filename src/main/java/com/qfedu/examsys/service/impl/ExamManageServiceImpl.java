@@ -3,6 +3,7 @@ package com.qfedu.examsys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.qfedu.examsys.dao.ExamManageDao;
+import com.qfedu.examsys.entity.ApplyMessage;
 import com.qfedu.examsys.entity.ExamManage;
 import com.qfedu.examsys.service.ExamManageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,11 @@ public class ExamManageServiceImpl implements ExamManageService {
         List<ExamManage> list = examManageDao.findAllByPage();
 
         return list;
+    }
+
+    @Override
+    public ApplyMessage findByExamManageId(Integer examManageId, Integer studentId) {
+        ApplyMessage applyMessage = examManageDao.findByExamManageId(examManageId,studentId);
+        return applyMessage;
     }
 }

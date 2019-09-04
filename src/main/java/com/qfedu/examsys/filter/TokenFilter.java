@@ -59,7 +59,7 @@ public class TokenFilter implements Filter {
                 // 判断是否ajax请求
                 if (head != null && head.equals("XMLHttpRequest")) {
                     resp.getWriter().write("{\"info\":\"未登录\"}");
-                            return;
+                    return;
                 } else {
                     // 跳转到登陆页面
                     response.sendRedirect("http://127.0.0.1:8020/forward/login.html");

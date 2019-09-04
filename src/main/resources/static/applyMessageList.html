@@ -54,17 +54,17 @@
                 , limit: 10
                 , limits: [5, 10, 15]
 
-            } //开启分页
-            , cols: [[ //表头
-                , {field: 'aid', title: '序号', width: 80, sort: true, fixed: 'left'}
-                , {field: 'studentName', title: '考生姓名', width: 100, sort: true, fixed: 'left'}
-                , {field: 'sex', title: '考生性别', width: 100}
-                , {field: 'email', title: '邮箱', width: 200, sort: true}
-                , {field: 'phone', title: '联系方式', width: 200, sort: true}
-                , {field: 'subjectName', title: '考试科目', width: 100, sort: true}
-                , {field: 'examStart', title: '考试开始时间', width: 200, sort: true}
-                , {field: 'examEnd', title: '考试结束时间', width: 200    , sort: true}
-                , {field: 'examTime', title: '时长', width: 80, sort: true}
+            }, //开启分页
+             cols: [[ //表头
+                 {field: 'aid', title: '序号', width: 50, sort: true, fixed: 'left'}
+                , {field: 'studentName', title: '姓名', width: 80, sort: true}
+                , {field: 'sex', title: '性别', width: 50}
+                , {field: 'email', title: '邮箱', width: 180, sort: true}
+                , {field: 'phone', title: '联系方式', width: 120, sort: true}
+                , {field: 'subjectName', title: '考试科目', width: 80, sort: true}
+                , {field: 'examStart', title: '开始时间', width: 200, sort: true}
+                , {field: 'examEnd', title: '结束时间', width: 200    , sort: true}
+                , {field: 'examTime', title: '时长(分钟)', width: 80, sort: true}
 
                 , {fixed: 'right', width: 150, align: 'center', toolbar: '#barDemo'}
             ]]

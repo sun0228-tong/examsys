@@ -49,4 +49,9 @@ public class StudentServiceImpl implements StudentService {
     public List<String> findAllEmail() {
         return studentDao.findAllEmail();
     }
+
+    @Override
+    public Student findByStudentName(String name) {
+        return studentDao.findByStudentName(name);
+    }
 }

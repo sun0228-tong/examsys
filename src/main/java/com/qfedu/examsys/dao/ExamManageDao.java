@@ -1,6 +1,8 @@
 package com.qfedu.examsys.dao;
 
+import com.qfedu.examsys.entity.ApplyMessage;
 import com.qfedu.examsys.entity.ExamManage;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,4 +23,6 @@ public interface ExamManageDao {
     public ExamManage findById(Integer eid);
 
     public List<ExamManage> findAllByPage();
+
+    public ApplyMessage findByExamManageId(@Param("examManageId") Integer examManageId, @Param("studentId") Integer studentId);
 }

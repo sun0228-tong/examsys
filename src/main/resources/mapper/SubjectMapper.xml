@@ -11,4 +11,10 @@
 
     </select>
 
+    <select id="findBySubjectName" parameterType="string" resultType="subject">
+
+        select * from subject where subjectName = #{name}
+
+    </select>
+
 </mapper>

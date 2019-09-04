@@ -17,4 +17,6 @@ public interface SubjectDao {
      * @return 返回的是查询到的信息
      */
     public List<Subject> findAll();
+
+    public Subject findBySubjectName(String name);
 }

@@ -19,4 +19,6 @@ public interface StudentService {
     public List<Student> findAllStus();
 
     public List<String> findAllEmail();
+
+    public Student findByStudentName(String name);
 }

@@ -17,4 +17,6 @@ public interface SubjectService {
      * @return 返回查询到的信息
      */
     public List<Subject> findAll();
+
+    public Subject findBySubjectName(String name);
 }

@@ -68,4 +68,10 @@
 
     </select>
 
+    <select id="findByExamManageId" parameterType="map" resultType="applyMessage">
+
+        select * from apply_message where examManageId = #{examManageId} and studentId = #{studentId}
+
+    </select>
+
 </mapper>

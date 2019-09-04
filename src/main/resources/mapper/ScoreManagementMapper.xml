@@ -96,4 +96,10 @@
         where sm.sid = #{sid}
     </update>
 
+    <delete id="delScoreById" parameterType="int">
+
+        delete from score_manage where sid = #{sid}
+
+    </delete>
+
 </mapper>

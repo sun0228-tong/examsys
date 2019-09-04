@@ -1,5 +1,6 @@
 package com.qfedu.examsys.service;
 
+import com.qfedu.examsys.entity.ApplyMessage;
 import com.qfedu.examsys.entity.ExamManage;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface ExamManageService {
     public ExamManage findEmsById(Integer eid);
 
     public List<ExamManage> findAllEmsByPage(Integer page, Integer limit);
+
+    public ApplyMessage findByExamManageId(Integer examManageId, Integer studentId);
 }
