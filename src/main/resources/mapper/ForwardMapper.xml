@@ -5,7 +5,7 @@
 
 <mapper namespace="com.qfedu.examsys.dao.ForwardDao">
 
-    <select id="findApplyByName" parameterType="string" resultType="com.qfedu.examsys.vo.VApply">
+    <select id="findApplyByName" parameterType="map" resultType="com.qfedu.examsys.vo.VApply">
 
         select aid,studentName,subjectName,examStart,examEnd,examManageId from apply_message ap
         inner join student s
@@ -14,11 +14,11 @@
         on sub.sid = ap.subjectId
         inner join exam_manage em
         on em.eid = ap.examManageId
-        where studentName = #{name}
+        where studentName = #{name} and DATE_FORMAT(#{currentTime},'%Y-%m-%d') &lt;= DATE_FORMAT(examEnd,'%Y-%m-%d')
 
     </select>
 
-    <select id="findScoreByName" parameterType="string" resultType="com.qfedu.examsys.vo.VScore">
+    <select id="findScoreByName" parameterType="map" resultType="com.qfedu.examsys.vo.VScore">
 
         select sm.sid,studentName,subjectName,em.eid,score from score_manage sm
         inner join student stu
@@ -29,7 +29,20 @@
         on sub.sid = am.subjectId
         inner join exam_manage em
         on em.eid = am.examManageId
-        where stu.studentName = #{name}
+        <where>
+            <if test="name != null &amp;&amp; name != ''">
+                stu.studentName = #{name}
+            </if>
+            <if test="subjectId != null &amp;&amp; subjectId != ''">
+                and sub.sid = #{subjectId}
+            </if>
+            <if test="examStart != null">
+                and DATE_FORMAT(examStart,'%Y-%m-%d') >= DATE_FORMAT(#{examStart},'%Y-%m-%d')
+            </if>
+            <if test="examEnd != null">
+                and DATE_FORMAT(examEnd,'%Y-%m-%d') &lt;= DATE_FORMAT(#{examEnd},'%Y-%m-%d')
+            </if>
+        </where>
 
     </select>
 

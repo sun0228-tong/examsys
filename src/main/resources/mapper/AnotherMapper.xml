@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qfedu.examsys.dao.AnotherDao">
+
+    <select id="findAllSM" parameterType="int" resultType="com.qfedu.examsys.vo.Another">
+
+        select sm.sid,sm.otherScore,sub.subjectName,am.examManageId from short_manage sm
+        inner join apply_message am
+        on am.aid = sm.aid
+        inner join subject sub
+        on sub.sid = am.subjectId
+        <where>
+            <if test="subjectId != null &amp;&amp; subjectId != ''">
+                am.subjectId = #{subjectId}
+            </if>
+            and sm.hasChecked = 0
+        </where>
+
+    </select>
+
+
+</mapper>

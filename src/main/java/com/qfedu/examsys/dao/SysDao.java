@@ -1,6 +1,5 @@
 package com.qfedu.examsys.dao;
 
-import com.qfedu.examsys.entity.Authority;
 import com.qfedu.examsys.entity.User;
 import com.qfedu.examsys.vo.VAuthority;
 import com.qfedu.examsys.vo.VUser;

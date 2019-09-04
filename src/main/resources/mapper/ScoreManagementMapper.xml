@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qfedu.examsys.dao.ScoreManagementDao">
+
+    <resultMap id="vScoreManageMap" type="com.qfedu.examsys.vo.VScoreManage">
+        <id column="sid" property="sid"/>
+        <result column="score" property="score"/>
+        <association property="vApplyMessage">
+            <association property="student" >
+                <result column="studentName" property="studentName"/>
+            </association>
+            <association property="subject">
+                <result column="subjectName" property="subjectName"/>
+            </association>
+            <association property="examManage">
+                <result column="applyStart" property="applyStart"/>
+                <result column="applyEnd" property="applyEnd"/>
+            </association>
+        </association>
+    </resultMap>
+    
+    <select id="findAllScoreManage" parameterType="int" resultMap="vScoreManageMap">
+        select sm.sid, sm.score, st.studentName, su.subjectName, em.applyEnd, em.applyStart
+        from score_manage sm
+        inner join apply_message am
+        on sm.applyManageId = am.aid
+        inner join student st
+        on am.studentId = st.sid
+        inner join subject su
+        on am.subjectId = su.sid
+        inner join exam_manage em
+        on am.examManageId = em.eid
+        <where>
+            <if test="sid != null">
+                sm.sid = #{sid}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByStudentNameOrSubjectNameScoreManage" parameterType="string" resultMap="vScoreManageMap">
+        select sm.score, st.studentName, su.subjectName, em.applyEnd, em.applyStart
+        from score_manage sm
+        inner join apply_message am
+        on sm.applyManageId = am.aid
+        inner join student st
+        on am.studentId = st.sid
+        inner join subject su
+        on am.subjectId = su.sid
+        inner join exam_manage em
+        on am.examManageId = em.eid
+        <where>
+            <if test="studentName != null or studentName != ''">
+                st.studentName = #{studentName}
+            </if>
+            <if test="subjectName != null or subjectName != ''">
+                or su.subjectName = #{subjectName}
+            </if>
+        </where>
+    </select>
+
+    <delete id="delScoreById" parameterType="int">
+
+        delete from score_manage where sid = #{sid}
+
+    </delete>
+
+</mapper>

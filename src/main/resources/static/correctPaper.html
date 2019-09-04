@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="layui/css/layui.css" />
+    <script type="text/javascript" src="js/jquery-1.12.2.min.js" ></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+</head>
+
+<body>
+<!--  显示登录用户的用户名 -->
+<div>
+    <!--			<button type="button" class="layui-btn" onclick="add()" >添加</button>-->
+
+    <div class="layui-form searchDiv">
+        <div  class="layui-inline">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <div class="layui-form-item">
+                    <select  id="shit" name="shit">
+                        <option value="">请选择批改课程</option>
+                        <option value="1">Java</option>
+                        <option value="2">C#</option>
+                        <option value="3">C++</option>
+                        <option value="4">SQL server</option>
+                        <option value="5">数据结构</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button id="ww" type="button" class="layui-btn" data-type="reload" >查询</button>
+    </div>
+
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
+
+<script id="toolbarDemo" type="text/html">
+    <!--		<div class="layui-btn-container"></div>-->
+    <!--            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">批量删除数据</button>-->
+    <!--<%&#45;&#45;            <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>&#45;&#45;%>-->
+    <!--<%&#45;&#45;            <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>&#45;&#45;%>-->
+    <!--<%&#45;&#45;            <button class="layui-btn layui-btn-sm" lay-event="deletes">批量删除数据</button>&#45;&#45;%>-->
+
+</script>
+
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">批改</a>
+</script>
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form', 'table'], function() {
+        var layer = layui.layer, form = layui.form, table = layui.table;
+
+        //执行一个 table 实例
+        table.render({
+            elem: '#demo'  // table标签的id
+            // ,toolbar: '#toolbarDemo'
+            ,id:"transferTable"
+            //,height: 420
+            , url: 'another' //数据接口  跨域
+            , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                , groups: 3 //只显示 1 个连续页码
+                , first: false //不显示首页
+                , last: false //不显示尾页
+                , limit: 5
+                , limits: [5, 10, 20]
+
+            } //开启分页
+            ,cols: [[ //表头
+                // {field: 'id', title: '编号', width: 80, sort: true, fixed: 'left'}
+                {type: 'checkbox', fixed: 'left'}
+                ,{field: 'sid', title: '序号', width:100, sort: true, fixed: 'left'}
+                ,{field: 'otherScore', title: '其他试题分数', width:200}
+                ,{field: 'subjectName', title: '学科', width:150, sort: true}
+                ,{field: 'examManageId', title: '考试场次', width:100, sort: true}
+
+                , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
+
+            ]]
+        });
+
+        var active = {
+            reload: function(){
+                //执行重载
+                table.reload('transferTable', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: { // 额外需要提交的参数
+                        subjectId:$("#shit").val(),
+
+                    }
+                });
+            }
+        };
+
+        $('.searchDiv .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        // 监听头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    // layer.alert(JSON.stringify(data));
+
+                    if (data.length == 0) {
+                        alert("请先选择数据");
+                    } else {
+
+                        var ret = window.confirm('确认删除所选' + data.length + '条数据？');
+
+                        if (ret) {
+                            var arr = JSON.stringify(data);
+                            var json = {"ids":arr};
+                            $.ajax({
+                                type:"get",
+                                url:"video/deleteMore.do",
+                                data:json,
+                                dataType:"json",
+                                success:function(data){
+                                    if(data.code == 1){
+                                        alert("删除成功");
+                                        table.reload('transferTable');
+                                        // window.location.href = '/videos/video/list.do?page=' + ;
+                                    }else{
+                                        alert(data.info);
+                                    }
+                                }
+                            })
+                        }
+                    }
+
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                    break;
+                case 'deletes':
+                    layer.msg('选中了：'+ data.length + ' 条数据');
+                // var ret = window.confirm("确认删除所选数据？");
+                //
+                // if (ret) {
+                //     var arr = checkStatus.data;
+                //     console.log(checkStatus.type);
+                // }
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            if(layEvent === 'del'){
+                layer.confirm('真的要删除此行么', function(index){
+                    obj.del(); //删除对应行（tr）的DOM结构
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type:"get",
+                        url:"sys/deleteUser.do?uid=" + data.uid,
+                        dataType:"json",
+                        success:function(data){
+                            if(data.code == 1){
+                                table.reload('transferTable');
+                            }else{
+                                alert(data.info);
+                            }
+                        }
+                    })
+                });
+            } else if(layEvent === 'edit'){
+                $.ajax({
+                    type:"get",
+                    url:"judge/toUpdatePage.do" + data.sid,
+                    dataType:"json",
+                    success:function(data){
+                        if(data.code == 0){
+                            window.location.href = "shit.html?sid=" + data.sid;
+                        }else{
+                            layer.msg(data.info);
+                        }
+                    }
+                })
+            }
+        });
+
+        // findSpeaker(form);
+        // findCourse(form);
+
+    })
+</script>
+
+<script type="text/javascript">
+    function add(){
+        layer.open({
+            type: 2 //此处以iframe举例
+            , title: '添加用户信息'
+            , area: ['400px', '400px']
+            , content: 'add.html'
+        })
+    }
+
+</script>
+
+<script type="text/javascript">
+    function findSpeaker(form) {
+        $.ajax({
+            type:'get',
+            url:'video/findSpeaker.do',
+            dataType:'json',
+            success:function (data) {
+                if (data.code == 1) {
+                    var infos = data.info;
+                    $(infos).each(function () {
+                        var html = '<option value="'+ this.name +'">' + this.name + '</option>';
+                        $("#test1").append($(html));
+                    })
+                    form.render();
+                }
+            }
+        });
+    }
+
+    function findCourse(form) {
+        $.ajax({
+            type:'get',
+            url:'video/findCourse.do',
+            dataType:'json',
+            success:function (data) {
+                if (data.code == 1) {
+                    var infos = data.info;
+                    $(infos).each(function () {
+                        var html = '<option value="'+ this.id +'">' + this.title + '</option>';
+                        $("#test2").append($(html));
+                    })
+                }
+                form.render();
+            }
+        });
+    }
+
+</script>
+</body>
+
+</html>

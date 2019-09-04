@@ -8,6 +8,7 @@ import com.qfedu.examsys.vo.VScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,16 +18,16 @@ public class ForwardServiceImpl implements ForwardService {
     private ForwardDao forwardDao;
 
     @Override
-    public List<VApply> findApplyInfoByName(String name, Integer page, Integer limit) {
+    public List<VApply> findApplyInfoByName(String name, Date currentTime, Integer page, Integer limit) {
         PageHelper.startPage(page,limit);
-        List<VApply> list = forwardDao.findApplyByName(name);
+        List<VApply> list = forwardDao.findApplyByName(name,currentTime);
         return list;
     }
 
     @Override
-    public List<VScore> findScoreInfoByName(String name, Integer page, Integer limit) {
+    public List<VScore> findScoreInfoByName(Integer subjectId, Date examStart, Date examEnd, String name, Integer page, Integer limit) {
         PageHelper.startPage(page,limit);
-        List<VScore> list = forwardDao.findScoreByName(name);
+        List<VScore> list = forwardDao.findScoreByName(subjectId,examStart,examEnd,name);
         return list;
     }
 }
