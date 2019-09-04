@@ -6,7 +6,9 @@
 <mapper namespace="com.qfedu.examsys.dao.SubjectDao">
 
     <select id="findAll" resultType="subject">
+
         select * from subject
+
     </select>
 
 </mapper>

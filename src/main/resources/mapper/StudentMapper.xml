@@ -5,6 +5,63 @@
 
 <mapper namespace="com.qfedu.examsys.dao.StudentDao">
 
+    <insert id="add" parameterType="student">
+
+        insert into student (studentName, email, password, sex, phone)
+        values (#{studentName}, #{email}, #{password}, #{sex}, #{phone})
+
+    </insert>
+
+    <delete id="deleteById" parameterType="int">
+
+        delete * from student where sid = #{sid}
+
+    </delete>
+
+    <update id="update" parameterType="student">
+
+        update student
+
+        <set>
+
+            <if test="studentName != null">
+                studentName = #{studentName},
+            </if>
+
+            <if test="email != null">
+                email = #{email},
+            </if>
+
+            <if test="password != null">
+                password = #{password},
+            </if>
+
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+
+        </set>
+
+        where sid = #{sid}
+
+    </update>
+
+    <select id="findAll" resultType="student">
+
+        select * from student
+
+    </select>
+
+    <select id="findAllEmail" resultType="String">
+
+        select email from student
+
+    </select>
+
     <select id="findByStudentNameAndPassword" parameterType="map" resultType="student">
 
         select * from student where studentName = #{name} and password = #{password}

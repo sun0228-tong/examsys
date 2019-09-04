@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qfedu.examsys.dao.ApplyMessageDao">
+
+    <insert id="add" parameterType="applyMessage">
+
+        insert into apply_message (subjectId, studentId, examManageId)
+        values (#{subjectId}, #{studentId}, #{examManageId})
+
+    </insert>
+
+    <delete id="deleteById" parameterType="int">
+
+        delete from apply_message where aid = #{aid}
+
+    </delete>
+
+    <update id="update" parameterType="applyMessage">
+
+        update apply_message
+
+        <set>
+
+            <if test="subjectId != null">
+                subjectId = #{subjectId},
+            </if>
+
+            <if test="studentId != null">
+                studentId = #{studentId},
+            </if>
+
+            <if test="examManageId != null">
+                examManageId = #{examManageId},
+            </if>
+
+        </set>
+
+        where aid = #{aid}
+
+    </update>
+
+
+    <select id="findOne" parameterType="int" resultType="applyMessage">
+
+            select * from apply_message where aid = #{aid}
+
+    </select>
+
+    <select id="findAllByPage" resultType="com.qfedu.examsys.vo.VApplyMessage">
+
+        select studentName, sex, email, phone, subjectName,
+        examStart, examEnd, examTime from apply_message am
+        inner join student stu
+        on am.studentId = stu.sid
+        inner join subject sub
+        on am.studentId = sub.sid
+        inner join exam_manage em
+        on am.examManageId = em.eid
+
+    </select>
+
+</mapper>
