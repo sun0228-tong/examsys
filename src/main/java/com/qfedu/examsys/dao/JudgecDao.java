@@ -15,4 +15,6 @@ public interface JudgecDao {
     public void updateHasChecking(Integer sid);
 
     public ShortManage shits(Integer sid);
+
+    public ShortManage findByAid(Integer aid);
 }

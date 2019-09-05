@@ -36,4 +36,9 @@ public class JudgecServiceImpl implements JudgecService {
         ShortManage shortManage = judgecDao.shits(sid);
         return shortManage;
     }
+
+    @Override
+    public ShortManage findByAid(Integer aid) {
+        return judgecDao.findByAid(aid);
+    }
 }

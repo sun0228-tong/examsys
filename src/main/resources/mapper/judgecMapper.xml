@@ -37,7 +37,11 @@
         and s.sid > #{sid}
     </select>
 
-    <update id="updateHasChecking" parameterType="map">
-        update short_manage set checking = #{checking} where sid = #{sid}
+    <update id="updateHasChecking" parameterType="int">
+        update short_manage set hasChecked = 1 where sid = #{sid}
     </update>
+
+    <select id="findByAid" parameterType="int" resultType="shortManage">
+        select * from short_manage where aid = #{aid}
+    </select>
 </mapper>
