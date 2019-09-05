@@ -15,4 +15,7 @@ public class ShortQuestion {
     private Integer score;
     private String question;
     private Integer subjectId;
+    private String rightAnswer;
+    // 页面显示需要学科 Name
+    private String subjectName;
 }

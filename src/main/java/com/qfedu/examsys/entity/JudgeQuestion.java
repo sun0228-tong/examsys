@@ -18,4 +18,7 @@ public class JudgeQuestion {
     private Integer choiceB;
     private Integer rightAnswer;
     private Integer subjectId;
+
+    // 页面显示需要学科 Name
+    private String subjectName;
 }

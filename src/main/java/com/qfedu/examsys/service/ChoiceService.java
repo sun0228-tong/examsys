@@ -25,9 +25,9 @@ public interface ChoiceService {
      * @param limit
      * @return
      */
-    public Map<String, Object> findByChoiceAll(Integer page,
-                                               Integer limit,
-                                               Integer subjectId);
+    public Map<String, Object> findByChoiceAll(String subjectName,
+                                               Integer page,
+                                               Integer limit);
 
     /**
      * 查询一条记录
@@ -47,4 +47,5 @@ public interface ChoiceService {
      * @param choiceQuestion 传入的对象是一个 ChoiceQuestion 类对象
      */
     public void updateChoice(ChoiceQuestion choiceQuestion);
+
 }

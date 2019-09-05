@@ -57,7 +57,7 @@ public class ExcelUtils {
         return list;
     }
 
-    // 判断EXCEL文件的后缀，如果是xls后缀，返回true,xlsx返回 false
+    // 判断EXCEL文件的后缀，如果是xls后缀，返回true,xlsx 返回 false
     private static boolean isXLs(String filename) {
         // 正则表达式中（？i）表示不区分大小写
         if(filename.matches("^.+\\.(?i)(xls)$")) {

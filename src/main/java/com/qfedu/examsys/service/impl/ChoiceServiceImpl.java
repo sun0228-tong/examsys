@@ -32,10 +32,10 @@ public class ChoiceServiceImpl implements ChoiceService {
     }
 
     @Override
-    public Map<String, Object> findByChoiceAll(Integer subjectId, Integer page, Integer limit) {
+    public Map<String, Object> findByChoiceAll(String subjectName, Integer page, Integer limit) {
         // 设置页码和每页显示的记录数，该语句后面，紧跟着数据库查询相关的语句
         PageHelper.startPage(page, limit);
-        List<ChoiceQuestion> list = choiceDao.findByChoiceAll(subjectId, page, limit);
+        List<ChoiceQuestion> list = choiceDao.findByChoiceAll(subjectName);
         Map<String, Object> map = new HashMap<>();
         long total = ((Page) list).getTotal();
         map.put("code", 0);
@@ -61,4 +61,5 @@ public class ChoiceServiceImpl implements ChoiceService {
     public void updateChoice(ChoiceQuestion choiceQuestion) {
         choiceDao.updateChoice(choiceQuestion);
     }
+
 }

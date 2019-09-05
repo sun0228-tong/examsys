@@ -4,12 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.qfedu.examsys.dao.ChoiceDao">
+
     <insert id="addChoiceTitle" parameterType="list">
         insert into
-        choice_question(score, question, choiceA, choiceB, choiceC, choiceD, rightAnswer, subjectId)
-        VALUES
+        choice_question
+        (score, question, choiceA, choiceB, choiceC, choiceD, rightAnswer, subjectId)
+        values
         <foreach collection="list" item="item" index="index" separator=",">
-            (1,
+            (#{item.score},
             #{item.question},
             #{item.choiceA},
             #{item.choiceB},
@@ -31,13 +33,22 @@
         on
         c.subjectId = s.sid
         where 1 = 1
-        <if test="subjectId != null and subjectId != ''">
-            and c.subjectId like s.sid
+        <if test="subjectName != null and subjectName != ''">
+            and s.subjectName like #{subjectName}
         </if>
     </select>
 
     <select id="findById" parameterType="int" resultType="choiceQuestion">
-        select * from choice_question where cid = #{cid}
+        select
+        c.*,
+        s.subjectName
+        from
+        choice_question c
+        inner join
+        subject s
+        on
+        c.subjectId = s.sid
+        where c.cid = #{cid}
     </select>
 
     <delete id="deleteChoice" parameterType="int">
@@ -75,4 +86,5 @@
         </set>
         where cid = #{cid}
     </update>
+
 </mapper>

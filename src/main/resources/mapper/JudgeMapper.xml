@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qfedu.examsys.dao.JudgeDao">
+    <insert id="addJudgeTitle" parameterType="list">
+        insert into
+        judge_question(score, question, choiceA, choiceB, rightAnswer, subjectId)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (1,
+            #{item.question},
+            1,
+            0,
+            #{item.rightAnswer},
+            #{item.subjectId})
+        </foreach>
+    </insert>
+
+    <select id="findAll" parameterType="list" resultType="judgeQuestion">
+        select
+        j.*,
+        s.subjectName
+        from
+        judge_question j
+        inner join
+        subject s
+        on
+        j.subjectId = s.sid
+        where 1 = 1
+        <if test="subjectName != null and subjectName != ''">
+            and s.subjectName = #{subjectName}
+        </if>
+    </select>
+
+    <select id="findById" parameterType="int" resultType="judgeQuestion">
+        select
+        j.*,
+        s.subjectName
+        from judge_question j
+        inner join
+        subject s
+        on
+        j.subjectId = s.sid
+        where j.jid = #{jid}
+    </select>
+
+    <delete id="deleteJudge" parameterType="int">
+        delete from judge_question where jid = #{jid}
+    </delete>
+
+    <update id="modifyJudge" parameterType="judgeQuestion">
+        update
+        judge_question
+        <set>
+            <if test="score != null and score != ''">
+                score = #{score},
+            </if>
+            <if test="question != null and question != ''">
+                question = #{question},
+            </if>
+            <if test="choiceA != null and choiceA !=''">
+                choiceA = #{choiceA},
+            </if>
+            <if test="choiceB != null and choiceB">
+                choiceB = #{choiceB},
+            </if>
+            <if test="rightAnswer != null and rightAnswer">
+                rightAnswer = #{rightAnswer},
+            </if>
+            <if test="subjectId != null and subjectId != ''">
+                subjectId = #{subjectId}
+            </if>
+        </set>
+        where jid = #{jid}
+    </update>
+</mapper>

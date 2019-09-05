@@ -181,13 +181,15 @@
                     })
                 });
             } else if(layEvent === 'edit'){
+                var sid = data.sid;
                 $.ajax({
                     type:"get",
-                    url:"judge/toUpdatePage.do" + data.sid,
+                    url:"judge/toUpdatePage.do?sid=" + sid,
                     dataType:"json",
                     success:function(data){
                         if(data.code == 0){
-                            window.location.href = "shit.html?sid=" + data.sid;
+
+                            window.location.href = "shit.html?sid=" + sid + "&studentId=" + data.info.studentId + "&applyManageId=" + data.info.aid + "&otherScore=" + data.info.otherScore;
                         }else{
                             layer.msg(data.info);
                         }

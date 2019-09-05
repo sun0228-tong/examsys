@@ -172,16 +172,17 @@ public class ForwardController {
 
     @ResponseBody
     @RequestMapping("/checkExamStatus")
-    public JsonResult checkExamStatus(Date examStart, Date examEnd) {
+    public JsonResult checkExamStatus(Date examStart, Date examEnd, Integer aid) {
         Date currentTime = new Date();
         JsonResult jsonResult = null;
+        ApplyMessage applyMessage = applyMessageService.findAmsById(aid);
 
         if (currentTime.getTime() < examStart.getTime()) {
             jsonResult = new JsonResult(0,"未到考试时间");
         } else if (currentTime.getTime() > examEnd.getTime()) {
             jsonResult = new JsonResult(0,"考试已结束");
         } else {
-            jsonResult = new JsonResult(1,null);
+            jsonResult = new JsonResult(1,applyMessage);
         }
 
         return jsonResult;

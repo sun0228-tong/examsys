@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加课程信息</title>
+    <style type="text/css">
+
+    </style>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script type="text/javascript" src="../layui/layui.js" ></script>
+    <script type="text/javascript" src="../js/jquery-1.12.4.min.js" ></script>
+</head>
+
+<body>
+<div>
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">添科目信息</div>
+        </div>
+        <br>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">科目名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="subjectName"  lay-verify="required" placeholder="科目名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form'], function(){
+        var layer = layui.layer
+            ,form = layui.form;
+
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            $.ajax({
+                type:"post",
+                url:"/examsys/subject/addSubject",
+                data:data.field,
+                dataType:"json",
+                success:function(data){  //{code:1,info:....}
+                    if(data.code == 1){
+                        var t = parent.layui.table;
+                        t.reload('transferTable');// 重新加载页面,demo 表示父窗体table标签的id值
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.msg('添加成功', {icon: 1,time:2000,shade:0.2});
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        parent.layer.msg(data.info, {icon: 2,time:2000,shade:0.2});
+                    }
+                }
+            })
+            // 阻止默认的提交
+            return false;
+        });
+    });
+</script>
+
+</body>
+</html>

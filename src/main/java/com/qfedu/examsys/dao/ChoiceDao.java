@@ -22,15 +22,10 @@ public interface ChoiceDao {
 
     /**
      * 查询所有选择题，采用layui中的分页查询
-     * @param subjectId
-     * @param page
-     * @param limit
+     * @param subjectName
      * @return 返回的是一个 ChoiceQuestion 的集合
-     * @param subjectId
      */
-    public List<ChoiceQuestion> findByChoiceAll(@Param("subjectId") Integer subjectId,
-                                                Integer page,
-                                                Integer limit);
+    public List<ChoiceQuestion> findByChoiceAll(@Param("subjectName") String subjectName);
 
     /**
      * 查询一条信息
@@ -46,8 +41,9 @@ public interface ChoiceDao {
     public void deleteChoice(Integer cid);
 
     /**
-     * 修改试题信息
+     * 修改选择题信息
      * @param choiceQuestion 传入的参数是 choiceQuestion 类对象
      */
     public void updateChoice(ChoiceQuestion choiceQuestion);
+
 }

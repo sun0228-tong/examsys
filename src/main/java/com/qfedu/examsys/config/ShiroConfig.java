@@ -61,6 +61,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/font/**", "anon");
         filterChainDefinitionMap.put("/api/**", "anon");
+        filterChainDefinitionMap.put("/static/**", "anon");
 
         filterChainDefinitionMap.put("/login", "anon");
 
@@ -68,6 +69,12 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/title/**", "anon");
         // 过滤学科，下拉菜单使用
         filterChainDefinitionMap.put("/subject/**", "anon");
+        // 过滤多选择题
+        filterChainDefinitionMap.put("/mChoice/**", "anon");
+        // 过滤判断题
+        filterChainDefinitionMap.put("/judge/**", "anon");
+        // 过滤简答题
+        filterChainDefinitionMap.put("/short/**", "anon");
 
 
         filterChainDefinitionMap.put("/admin/**", "authc");
