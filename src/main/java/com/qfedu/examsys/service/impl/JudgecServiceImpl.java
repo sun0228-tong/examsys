@@ -30,4 +30,10 @@ public class JudgecServiceImpl implements JudgecService {
     public void updateHasChecking(Integer sid) {
         judgecDao.updateHasChecking(sid);
     }
+
+    @Override
+    public ShortManage shits(Integer sid) {
+        ShortManage shortManage = judgecDao.shits(sid);
+        return shortManage;
+    }
 }

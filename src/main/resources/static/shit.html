@@ -15,7 +15,7 @@
             <tr v-for="(v,k) in answer">
                 <td>{{k}}<br>{{v}}</td>
 
-                <td><input type="text"></td>
+                <td><input class="shit" type="number"></td>
             </tr>
         </table>
         <button v-on:click="btn()">下一个</button>
@@ -33,50 +33,55 @@
             arr : [],
             answer : "",
             index : 0,
-            flag:false
+            flag:false,
+            otherScore: 0
         },
         methods:{
             btn:function(){
                 var _this = this;
                 if (this.flag) {
-                    $.ajax({
-                        type: "get",
-                        url: "judge/toUpdatePage.do?sid=" + _this.arr[_this.index],
-                        dataType: "json",
-                        success: function (data) {
-                            if (data.code == 0) {
-                                if (parseInt(index) < arr.length) {
-                                    _this.index++;
-                                    _this.answer = data.answer;
-                                    _this.flag = false;
+
+                    if (parseInt(_this.index) < _this.arr.length) {
+                        alert(_this.index);
+                        alert(_this.arr[_this.index]);
+                        $.ajax({
+                            type: "get",
+                            url: "judge/toUpdatePage.do?sid=" + _this.arr[_this.index],
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.code == 0) {
+                                    if (parseInt(_this.index) < _this.arr.length) {
+                                        _this.index++;
+                                        _this.answer = data.answer;
+                                        _this.flag = false;
+                                    } else {
+                                        alert("后面没有试卷！");
+                                    }
                                 } else {
-                                    alert("后面没有试卷！");
+                                    _this.btn();
+                                    _this.index++;
                                 }
-                            } else {
-                                _this.btn();
-                                _this.index++;
                             }
-                        }
-                    })
+                        })
+                    }
                 } else {
                     alert("请先提交改卷结果！");
                 }
             },
             sub:function(){
                 var _this = this;
-                var score = 0;
-                var arr = $("input");
-                for(var i in arr) {
-                    if (isNaN($("input")[i].val())) {
-                        score += parseInt($("input")[i].val());
-                    } else {
-                        alert("请输入数字");
+                var arr1 = document.getElementsByClassName("shit");
+                for(var i = 0;i<arr1.length;i++) {
+                    if (arr1[i].value == null || arr1[i].value == '') {
+                        alert("分数不能为空");
+                        return;
                     }
+                    _this.otherScore = _this.otherScore + parseInt(arr1[i].value);
                 }
                 $.ajax({
                     type:"post",
                     url:"subScore/subm.do" + window.location.search,
-                    data:{"score":score},
+                    data:{"score":_this.otherScore},
                     dataType:"json",
                     success:function(data){
                         if(data.code == 1){
@@ -92,13 +97,16 @@
 
         },
         created:function(){
-            _this = this;
+            var aa = window.location.search;
+            var bb = aa.substring(aa.lastIndexOf("=")+1);
+            var _this = this;
             $.ajax({
                 type:"post",
                 url:"shit" + window.location.search,
                 dataType:"json",
                 success:function(data) {
                     _this.answer = data;
+                    _this.otherScore = parseInt(bb);
                 }
             }),
 

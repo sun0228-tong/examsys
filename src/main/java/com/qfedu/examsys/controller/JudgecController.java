@@ -33,7 +33,7 @@ public class JudgecController {
 
     @RequestMapping("/sidArray.do")
     public List<Integer> sidArray(Integer sid) {
-        Integer subjectId = shortManageService.findManageById(sid).getSubjectId();
+        Integer subjectId = judgecService.shits(sid).getSubjectId();
         return judgecService.sidArray(sid, subjectId);
     }
 }

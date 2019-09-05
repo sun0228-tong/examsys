@@ -11,7 +11,7 @@ import java.util.List;
 public interface ExaminationDao {
     public List<ChoiceQuestion> choiceQuestionList(@Param("subjectId")Integer subjectId,@Param("count") Integer count);
 
-    public List<MChoiceQuestion> mchoiceQuestionList(@Param("subjectId")Integer subjectId,@Param("count") Integer count);
+    public List<MChoiceQuestion> mchoiceQuestionList(@Param("subjectId")Integer subjectId, @Param("count") Integer count);
 
     public List<JudgeQuestion> judgeQuestionList(@Param("subjectId")Integer subjectId,@Param("count") Integer count);
 

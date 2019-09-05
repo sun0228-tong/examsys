@@ -1,5 +1,6 @@
 package com.qfedu.examsys.controller;
 
+import com.qfedu.examsys.common.JsonResult;
 import com.qfedu.examsys.entity.ScoreManage;
 import com.qfedu.examsys.service.ScoreManageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,8 @@ public class ScoreManageController {
     private ScoreManageService scoreManageService;
 
     @RequestMapping("/subm.do")
-    public void subm(ScoreManage scoreManage) {
+    public JsonResult subm(ScoreManage scoreManage) {
         scoreManageService.subm(scoreManage);
+        return new JsonResult(1,null);
     }
 }

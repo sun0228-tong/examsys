@@ -5,12 +5,22 @@
 
 <mapper namespace="com.qfedu.examsys.dao.JudgecDao">
     <select id="findManageById" parameterType="int" resultType="shortManage">
-        select s.sid,s.answer,s.otherScore,a.subjectId
+        select s.sid,s.answer,s.otherScore,a.subjectId,s.studentId,s.aid
         from short_manage s
         inner join apply_message a
         on s.aid = a.aid
         where sid = #{sid}
         and checking = 0
+    </select>
+
+    <select id="shits" parameterType="int" resultType="shortManage">
+
+       select s.sid,s.answer,s.otherScore,a.subjectId,s.studentId,s.aid
+        from short_manage s
+        inner join apply_message a
+        on s.aid = a.aid
+        where sid = #{sid}
+
     </select>
 
     <update id="updateChecking" parameterType="map">

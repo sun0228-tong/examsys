@@ -10,4 +10,6 @@ public interface JudgecService {
     public List<Integer> sidArray(Integer sid, Integer subjectId);
 
     public void updateHasChecking(Integer sid);
+
+    public ShortManage shits(Integer sid);
 }

@@ -13,4 +13,6 @@ public interface JudgecDao {
     public List<Integer> sidArray(@Param("sid") Integer sid, @Param("subjectId") Integer subjectId);
 
     public void updateHasChecking(Integer sid);
+
+    public ShortManage shits(Integer sid);
 }

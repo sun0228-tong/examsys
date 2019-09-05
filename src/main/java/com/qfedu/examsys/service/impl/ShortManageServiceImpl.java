@@ -13,7 +13,7 @@ public class ShortManageServiceImpl implements ShortManageService {
     private ShortManageDao shortManageDao;
 
     @Autowired(required = false)
-    private JudgecDao judgeDao;
+    private JudgecDao judgecDao;
 
     @Override
     public void add(ShortManage shortManage) {
@@ -22,6 +22,6 @@ public class ShortManageServiceImpl implements ShortManageService {
 
     @Override
     public ShortManage findManageById(Integer sid) {
-        return judgeDao.findManageById(sid);
+        return judgecDao.findManageById(sid);
     }
 }
