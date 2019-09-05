@@ -61,4 +61,16 @@ public class AnotherController {
         return map;
 
     }
+
+    @ResponseBody
+    @RequestMapping("/aaa.do")
+    public JsonResult aaa(Integer eid) {
+        JsonResult jsonResult = null;
+        if (eid == 1) {
+            jsonResult = new JsonResult(1,null);
+        } else {
+            jsonResult = new JsonResult(0,null);
+        }
+        return jsonResult;
+    }
 }

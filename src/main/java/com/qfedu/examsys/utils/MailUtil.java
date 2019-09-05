@@ -34,7 +34,7 @@ public class MailUtil implements Runnable {
         // 1.创建连接对象javax.mail.Session
         // 2.创建邮件对象 javax.mail.Message
         // 3.发送一封激活邮件
-        String from = "1036673671@qq.com";// 发件人电子邮箱
+        String from = "1940659415@qq.com";// 发件人电子邮箱
         String host = "smtp.qq.com"; // 指定发送邮件的主机smtp.qq.com(QQ)|smtp.163.com(网易)
 
         Properties properties = System.getProperties();// 获取系统属性
@@ -53,7 +53,7 @@ public class MailUtil implements Runnable {
             Session session = Session.getDefaultInstance(properties, new Authenticator() {
                 @Override
                 public PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("1036673671@qq.com", "srperkdtqkqpbffe"); // 发件人邮箱账号、授权码
+                    return new PasswordAuthentication("1940659415@qq.com", "mtebnkbeislsbdaf"); // 发件人邮箱账号、授权码
                 }
             });
 

@@ -11,6 +11,7 @@
 
 <div class="layui-form demoTable">
     <div class="layui-row layui-col-space10 layui-form-item" style="margin: 10px;">
+        <button type="button" class="layui-btn"  onclick="shit()">查看成绩曲线</button>
         <div class="layui-form-item">
             <div class="layui-form searchDiv">
                 <form>
@@ -143,6 +144,15 @@
             }
         });
     });
+
+    function shit() {
+        layer.open({
+            type: 2 //此处以iframe举例
+            , title: '选择类型'
+            , area: ['700px', '700px']
+            , content: 'aaa.html'
+        })
+    }
 
 </script>
 </body>

@@ -28,7 +28,9 @@
                 <div class="layui-inline">
                     <div class="layui-input-inline">
                         <select name="eid" lay-verify="required" id="SHIT">
-                            <option value="">请选择考场</option>
+                            <option value="">请选择成绩曲线样式</option>
+                            <option value="1">学科-平均分</option>
+                            <option value="2">考场-平均分</option>
                         </select>
                     </div>
                 </div>
@@ -53,27 +55,27 @@
 
 
         // 下拉菜单绑定相应数据
-        $.ajax({
-            type: "get",
-            url: "eid.do", // 绑定的 eid 为考场号
-            dataType: "json",
-            success: function (data) {
-                if (data.code == 1) {
-                    var infos = data.info;
-                    $(infos).each(function () {
-                        var html = '<option value="' + this.eid + '">' + '第' + this.eid + '考场' + '</option>'
-                        $("#SHIT").append($(html));
-                    })
-                    form.render();
-                } else {
-                    alert(data.info);
-                }
-            }
-        });
+        // $.ajax({
+        //     type: "get",
+        //     url: "eid.do", // 绑定的 eid 为考场号
+        //     dataType: "json",
+        //     success: function (data) {
+        //         if (data.code == 1) {
+        //             var infos = data.info;
+        //             $(infos).each(function () {
+        //                 var html = '<option value="' + this.eid + '">' + '第' + this.eid + '考场' + '</option>'
+        //                 $("#SHIT").append($(html));
+        //             })
+        //             form.render();
+        //         } else {
+        //             alert(data.info);
+        //         }
+        //     }
+        // });
 
 
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
+        //var myChart = echarts.init(document.getElementById('main'));
 
         // 指定图表的配置项和数据
         option = {
@@ -141,29 +143,22 @@
             },]
         };
 
-        myChart.setOption(option);
+        //myChart.setOption(option);
 
         //监听提交
         form.on('submit(formDemo)', function (data) {
+
             $.ajax({
                 type: "get",
-                url: "fmes.do",
+                url: "aaa.do",
                 data: data.field,
                 dataType: "json",
-                async: false,
                 success: function (data) {
-                    var name = data.studentName;
-                    var score = data.score;
-                    // 填入数据
-                    myChart.setOption({
-                        xAxis: {
-                            data: name
-                        },
-                        series: [{
-                            // 根据名字对应到相应的系列
-                            data: score
-                        }]
-                    });
+                    if (data.code == 1) {
+                        window.location.href = "BGSubjectScoreList.html";
+                    } else {
+                        window.location.href = "BGExamScoreList.html";
+                    }
 
                 }
             })
