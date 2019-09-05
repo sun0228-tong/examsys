@@ -19,7 +19,6 @@ import java.util.Map;
  * @Version V1.0
  */
 @Controller
-@ResponseBody
 @RequestMapping("/subject")
 public class SubjectController {
 
@@ -31,7 +30,7 @@ public class SubjectController {
      * @return 返回查询到的记录
      */
     @RequestMapping("/findBySubjectAll")
-
+    @ResponseBody
     public JsonResult findBySubjectAll() {
 
         List<Subject> list = subjectService.findAll();
