@@ -43,7 +43,7 @@
     </update>
 
 
-    <select id="findOne" parameterType="int" resultType="applyMessage">
+    <select id="findById" parameterType="int" resultType="applyMessage">
 
             select * from apply_message where aid = #{aid}
 

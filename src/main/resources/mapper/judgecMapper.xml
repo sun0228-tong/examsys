@@ -26,4 +26,8 @@
         and  s.checking = 0
         and s.sid > #{sid}
     </select>
+
+    <update id="updateHasChecking" parameterType="map">
+        update short_manage set checking = #{checking} where sid = #{sid}
+    </update>
 </mapper>

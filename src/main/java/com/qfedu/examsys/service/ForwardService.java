@@ -11,4 +11,6 @@ public interface ForwardService {
     public List<VApply> findApplyInfoByName(String name,Date currentTime, Integer page, Integer limit);
 
     public List<VScore> findScoreInfoByName(Integer subjectId, Date examStart, Date examEnd, String name, Integer page, Integer limit);
+
+    public Integer aidIsEmpty(Integer aid);
 }

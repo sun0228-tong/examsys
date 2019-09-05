@@ -45,10 +45,10 @@ public class ExaminationServiceImpl implements ExaminationService {
         choices.setValues(choices1);
 
 
-        List<MchoiceQuestion> mchoiceQuestions = examinationDao.mchoiceQuestionList(subjectId,10);
+        List<MChoiceQuestion> mchoiceQuestions = examinationDao.mchoiceQuestionList(subjectId,10);
         Mchoices mchoices = new Mchoices();
         ArrayList<Mchoice> mchoices1 = new ArrayList<>();
-        for (MchoiceQuestion question : mchoiceQuestions) {
+        for (MChoiceQuestion question : mchoiceQuestions) {
             Mchoice mchoice = new Mchoice();
             mchoice.setQuestionStem(question.getQuestion());
             mchoice.setScore(question.getScore());

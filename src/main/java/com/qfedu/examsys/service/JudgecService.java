@@ -8,4 +8,6 @@ public interface JudgecService {
     public ShortManage toUpdatePageFind(Integer sid);
 
     public List<Integer> sidArray(Integer sid, Integer subjectId);
+
+    public void updateHasChecking(Integer sid);
 }
