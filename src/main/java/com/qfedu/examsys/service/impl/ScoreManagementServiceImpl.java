@@ -105,4 +105,9 @@ public class ScoreManagementServiceImpl implements ScoreManagementService {
             return map;
         }
     }
+
+    @Override
+    public void delScoreById(Integer id) {
+        scoreManagementDao.delScoreById(id);
+    }
 }

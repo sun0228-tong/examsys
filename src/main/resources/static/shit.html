@@ -6,8 +6,28 @@
 </head>
 <body>
 <div id="app">
-
-
+    <table border="1">
+        <tr>
+            <th>简答题</th>
+            <th>分数</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="text"></td>
+        </tr>
+    </table>
+    <form action="">
+        <table border="1">
+            <tr>
+                <th>简答题</th>
+                <th>分数</th>
+            </tr>
+            <tr v-for="(v,k) in answer">
+                <td>{{k}}<br>{{v}}</td>
+                <td><input type="text"></td>
+            </tr>
+        </table>
+    </form>
 
 </div>
 <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
@@ -18,24 +38,26 @@
         el : "#app", // 针对指定标签使用vue的语法
         data: {  // 定义的数据
             sid : "",
-            studentAnswer : ""
+            answer : ""
         },
         methods:{
             add:function(){
-                this.sumValue = parseInt(this.v1) + parseInt(this.v2);
+
             }
         },
         created:function(){
+            _this = this;
             $.ajax({
                 type:"post",
-                url:"" + window.location.search,
+                url:"shit?sid=4",
                 dataType:"json",
                 success:function(data){
-                    if(data.code == 0){
-                        window.location.href = "shit.html" + data.sid;
-                    }else{
-                        layer.msg(data.info);
-                    }
+                        //
+                        // if (data.code == 1) {
+                        //     _this.answer = data.info;
+                        // }
+                    _this.answer = data;
+
                 }
             })
         }

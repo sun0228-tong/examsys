@@ -14,4 +14,6 @@ public interface ScoreManagementDao {
     List<Subject> findAllSubject();
 
     int updateScoreManage(VScoreManage vScoreManage);
+
+    public void delScoreById(Integer id);
 }
