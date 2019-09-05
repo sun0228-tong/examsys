@@ -37,12 +37,11 @@
         },
         methods:{
             btn:function(){
-
+                var _this = this;
                 if (this.flag) {
-                    var _this = this;
                     $.ajax({
                         type: "get",
-                        url: "judge/toUpdatePage.do?sid=" + _this.index,
+                        url: "judge/toUpdatePage.do?sid=" + _this.arr[_this.index],
                         dataType: "json",
                         success: function (data) {
                             if (data.code == 0) {
@@ -60,7 +59,7 @@
                         }
                     })
                 } else {
-                    alert("请先提交改卷结果！")
+                    alert("请先提交改卷结果！");
                 }
             },
             sub:function(){
