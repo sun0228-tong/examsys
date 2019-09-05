@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>查看成绩统计图</title>
+    <style type="text/css">
+
+        #class {
+            padding-top: 10px;
+            margin-left: 10px;
+        }
+
+    </style>
+    <link rel="stylesheet" href="layui/css/layui.css"/>
+    <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+</head>
+
+<body>
+<div>
+    <div class="layui-form searchDiv" id="class">
+
+        <div class="layui-inline">
+
+            <form>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <select name="eid" lay-verify="required" id="SHIT">
+                            <option value="">请选择考场</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 800px;height:600px;"></div>
+<script type="text/javascript">
+
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form', 'table'], function () {
+        var layer = layui.layer;
+        var table= layui.table;
+        var form = layui.form;
+
+
+        // 下拉菜单绑定相应数据
+        $.ajax({
+            type: "get",
+            url: "eid.do", // 绑定的 eid 为考场号
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1) {
+                    var infos = data.info;
+                    $(infos).each(function () {
+                        var html = '<option value="' + this.eid + '">' + '第' + this.eid + '考场' + '</option>'
+                        $("#SHIT").append($(html));
+                    })
+                    form.render();
+                } else {
+                    alert(data.info);
+                }
+            }
+        });
+
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        option = {
+            title: {
+                text: '学生成绩折线图',
+                subtext: '分数'
+
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['最高分数', '最低分数']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    dataView: {
+                        readOnly: false
+                    },
+                    magicType: {
+                        type: ['line', 'bar']
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                // 考场
+                data: []
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} 分'
+                }
+            },
+            series: [{
+                name: '分数',
+                type: 'line',
+                // 考生分数
+                data: [],
+                markPoint: {
+                    data: [{
+                        type: 'max',
+                        name: '最大值'
+                    },
+                        {
+                            type: 'min',
+                            name: '最小值'
+                        }
+                    ]
+                },
+                markLine: {
+                    data: [{
+                        type: 'average',
+                        name: '平均值'
+                    }]
+                }
+            },]
+        };
+
+        myChart.setOption(option);
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            $.ajax({
+                type: "get",
+                url: "fmes.do",
+                data: data.field,
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var name = data.studentName;
+                    var score = data.score;
+                    // 填入数据
+                    myChart.setOption({
+                        xAxis: {
+                            data: name
+                        },
+                        series: [{
+                            // 根据名字对应到相应的系列
+                            data: score
+                        }]
+                    });
+
+                }
+            })
+        });
+
+        var active = {
+            reload: function () {
+                //执行重载
+                table.reload('main', {
+
+                     where: { // 额外需要提交的参数
+
+                        eid: $("#SHUTUP").val(),
+                    }
+                });
+            }
+        };
+
+        // $('.searchDiv .layui-btn').on('click', function () {
+        //     var type = $(this).data('type');
+        //     active[type] ? active[type].call(this) : '';
+        // });
+    })
+
+</script>
+
+</body>
+
+</html>
