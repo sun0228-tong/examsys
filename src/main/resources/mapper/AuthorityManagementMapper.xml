@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qfedu.examsys.dao.AuthorityManagementDao">
+
+    <resultMap id="permissionMap" type="com.qfedu.examsys.entity.Permission">
+        <id column="pid" property="id"/>
+        <result column="parentId" property="pId"/>
+        <result column="resourceName" property="name"/>
+    </resultMap>
+
+    <select id="findAllRole" parameterType="com.qfedu.examsys.entity.Role" resultType="com.qfedu.examsys.entity.Role">
+        select * from role
+    </select>
+
+    <select id="findAllPermission" resultMap="permissionMap">
+        select p.pid, p.parentId, p.resourceName from permission p
+    </select>
+
+    <select id="findAllRolePermission" parameterType="int" resultType="rolePermission">
+        select pid from role_permission where rid = #{rid}
+    </select>
+
+    <delete id="deleteByIdRolePermission" parameterType="int">
+        delete
+        from role_permission
+        where rid = #{rid}
+    </delete>
+
+    <insert id="addRolePermission" parameterType="list">
+        insert into role_permission(rid, pid)
+        values
+        <foreach collection="list" item="n" separator=",">
+            (
+            #{n.rid},
+            #{n.pid}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+</head>
+<body>
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 1500px;height:600px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    option = {
+        title: {
+            text: '考场分数折线图',
+            subtext: '平均分'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['最高分数', '最低分数']
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                dataView: {
+                    readOnly: false
+                },
+                magicType: {
+                    type: ['line', 'bar']
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            // 考场
+            data: []
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value} 平均分'
+            }
+        },
+        series: [{
+            name: '分数',
+            type: 'line',
+            // 考生分数
+            data: [],
+            markPoint: {
+                data: [{
+                    type: 'max',
+                    name: '最大值'
+                },
+                    {
+                        type: 'min',
+                        name: '最小值'
+                    }
+                ]
+            },
+        },]
+    };
+
+    myChart.setOption(option);
+
+    // 异步加载数据
+    $.ajax({
+        url: "fes.do",
+        type: "post",
+        dataType: "json",
+        success: function (data) {
+            var score = data.score;
+            var eid = data.eid;
+            // 填入数据
+            myChart.setOption({
+                xAxis: {
+                    data: eid
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    data: score
+                }]
+            });
+        }
+    })
+
+</script>
+
+
+</body>
+</html>
