@@ -24,13 +24,20 @@
 </head>
 <body>
     <div id="content">
-        <div class="layui-form-item" >
-            <div class="layui-layout layui-layout-admin">
-                <div class="layui-header" style="background: deeppink">
-                    <div class="layui-logo" style="color: deepskyblue">科目管理</div>
+        <form class="layui-form searchDiv" action="" lay-filter="example">
+            <div class="layui-form-item" >
+                <div class="layui-layout layui-layout-admin">
+                    <div class="layui-header" style="background: deeppink">
+                        <div class="layui-logo" style="color: deepskyblue">科目管理</div>
+                        <div style="position: absolute; top: 15px; right: 10px;">
+                            <button class="layui-btn layui-btn-normal" type="button" onclick="add()">
+                                <i class='layui-icon layui-icon-add-1'></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
 
         <table class="layui-hide" id="demo" lay-filter="test"></table>
 
@@ -115,6 +122,20 @@
             })
         })
      </script>
+
+    <script type="text/javascript">
+        function add() {
+            layer.open({
+                type:2
+                , title: '添加科目'
+                , area:['800px', '500px']
+                , content: 'http://localhost:8080/examsys/subject/skipAddSubject'
+                , end:function () {
+                    location.reload();  // layer.open 关闭刷新
+                }
+            })
+        }
+    </script>
 
 </body>
 </html>
