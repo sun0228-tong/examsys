@@ -25,4 +25,9 @@ public class JudgecServiceImpl implements JudgecService {
     public List<Integer> sidArray(Integer sid, Integer subjectId) {
         return judgecDao.sidArray(sid, subjectId);
     }
+
+    @Override
+    public void updateHasChecking(Integer sid) {
+        judgecDao.updateHasChecking(sid);
+    }
 }

@@ -30,4 +30,9 @@ public class ForwardServiceImpl implements ForwardService {
         List<VScore> list = forwardDao.findScoreByName(subjectId,examStart,examEnd,name);
         return list;
     }
+
+    @Override
+    public Integer aidIsEmpty(Integer aid) {
+        return forwardDao.aidIsEmpty(aid);
+    }
 }

@@ -57,11 +57,11 @@ public class ForwardController {
 
             String token = MD5Utils.md5(name + "examsys");
 
-            jsonResult = new JsonResult(1,token);
+            jsonResult = new JsonResult(1, token);
 
-            redisTemplate.opsForValue().set(token,name);
+            redisTemplate.opsForValue().set(token, name);
         } else {
-            jsonResult = new JsonResult(0,"账号或密码错误");
+            jsonResult = new JsonResult(0, "账号或密码错误");
         }
         return jsonResult;
     }
@@ -70,7 +70,7 @@ public class ForwardController {
     @ResponseBody
     public JsonResult logout(String name) {
         redisTemplate.delete(name);
-        return new JsonResult(1,null);
+        return new JsonResult(1, null);
     }
 
     @ResponseBody
@@ -78,14 +78,14 @@ public class ForwardController {
     public Map<String, Object> findApplyInfo(String tokenStr, Integer page, Integer limit) {
         String name = redisTemplate.opsForValue().get(tokenStr);
         Date currentTime = new Date();
-        List<VApply> list = forwardService.findApplyInfoByName(name, currentTime,page, limit);
+        List<VApply> list = forwardService.findApplyInfoByName(name, currentTime, page, limit);
 
         Map<String, Object> map = new HashMap<>();
-        long total = ((Page)list).getTotal();
-        map.put("code",0);
-        map.put("msg","");
-        map.put("count",total);
-        map.put("data",list);
+        long total = ((Page) list).getTotal();
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", total);
+        map.put("data", list);
 
         return map;
     }
@@ -94,14 +94,14 @@ public class ForwardController {
     @RequestMapping("/findScoreInfo")
     public Map<String, Object> findScoreInfo(Integer subjectId, Date examStart, Date examEnd, String tokenStr, Integer page, Integer limit) {
         String name = redisTemplate.opsForValue().get(tokenStr);
-        List<VScore> list = forwardService.findScoreInfoByName(subjectId,examStart,examEnd,name, page, limit);
+        List<VScore> list = forwardService.findScoreInfoByName(subjectId, examStart, examEnd, name, page, limit);
 
         Map<String, Object> map = new HashMap<>();
-        long total = ((Page)list).getTotal();
-        map.put("code",0);
-        map.put("msg","");
-        map.put("count",total);
-        map.put("data",list);
+        long total = ((Page) list).getTotal();
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", total);
+        map.put("data", list);
 
         return map;
     }
@@ -112,7 +112,7 @@ public class ForwardController {
 
         List<ExamManage> list = examManageService.findAllEmsByPage(page, limit);
 
-        long total = ((Page)list).getTotal();
+        long total = ((Page) list).getTotal();
 
         Map<String, Object> map = new HashMap<>();
         map.put("code", 0);
@@ -125,7 +125,7 @@ public class ForwardController {
 
     @RequestMapping("/studentApply")
     @ResponseBody
-    public JsonResult studentApply(String tokenStr, Integer examManageId, String subjectName,Date applyStart, Date applyEnd) {
+    public JsonResult studentApply(String tokenStr, Integer examManageId, String subjectName, Date applyStart, Date applyEnd) {
         String name = redisTemplate.opsForValue().get(tokenStr);
         JsonResult jsonResult = null;
         Date currentTime = new Date();
@@ -138,19 +138,19 @@ public class ForwardController {
         applyMessage.setStudentId(student.getSid());
         applyMessage.setSubjectId(subject.getSid());
 
-        ApplyMessage applyMessage1 = examManageService.findByExamManageId(examManageId,student.getSid());
+        ApplyMessage applyMessage1 = examManageService.findByExamManageId(examManageId, student.getSid());
 
         if (currentTime.getTime() <= applyStart.getTime()) {
-            jsonResult = new JsonResult(0,"未到报名时间");
+            jsonResult = new JsonResult(0, "未到报名时间");
         } else if (currentTime.getTime() > applyEnd.getTime()) {
-            jsonResult = new JsonResult(0,"报名时间已过");
+            jsonResult = new JsonResult(0, "报名时间已过");
         } else {
             // 判断是否重复报名
             if (applyMessage1 == null) {
                 applyMessageService.addAms(applyMessage);
-                jsonResult = new JsonResult(1,null);
+                jsonResult = new JsonResult(1, null);
             } else {
-                jsonResult = new JsonResult(0,"不能重复报名");
+                jsonResult = new JsonResult(0, "不能重复报名");
             }
         }
         return jsonResult;
@@ -160,14 +160,14 @@ public class ForwardController {
     @RequestMapping("/findAllSubject")
     public JsonResult findAllSubject() {
         List<Subject> list = subjectService.findAll();
-        return new JsonResult(1,list);
+        return new JsonResult(1, list);
     }
 
     @ResponseBody
     @RequestMapping("/delStudentScore")
     public JsonResult delStudentScore(Integer sid) {
-         scoreManagementService.delScoreById(sid);
-         return new JsonResult(1,null);
+        scoreManagementService.delScoreById(sid);
+        return new JsonResult(1, null);
     }
 
     @ResponseBody
@@ -176,13 +176,18 @@ public class ForwardController {
         Date currentTime = new Date();
         JsonResult jsonResult = null;
         ApplyMessage applyMessage = applyMessageService.findAmsById(aid);
-
-        if (currentTime.getTime() < examStart.getTime()) {
-            jsonResult = new JsonResult(0,"未到考试时间");
-        } else if (currentTime.getTime() > examEnd.getTime()) {
-            jsonResult = new JsonResult(0,"考试已结束");
+        Integer integer = forwardService.aidIsEmpty(aid);
+        if (integer != null) {
+            jsonResult = new JsonResult(0, "不能重复考试");
         } else {
-            jsonResult = new JsonResult(1,applyMessage);
+
+            if (currentTime.getTime() < examStart.getTime()) {
+                jsonResult = new JsonResult(0, "未到考试时间");
+            } else if (currentTime.getTime() > examEnd.getTime()) {
+                jsonResult = new JsonResult(0, "考试已结束");
+            } else {
+                jsonResult = new JsonResult(1, applyMessage);
+            }
         }
 
         return jsonResult;

@@ -7,7 +7,7 @@
 
     <select id="findApplyByName" parameterType="map" resultType="com.qfedu.examsys.vo.VApply">
 
-        select aid,studentName,subjectName,examStart,examEnd,examManageId from apply_message ap
+        select aid,studentName,subjectName,examStart,examEnd,examManageId,examTime from apply_message ap
         inner join student s
         on s.sid = ap.studentId
         inner join subject sub
@@ -46,5 +46,8 @@
 
     </select>
 
+    <select id="aidIsEmpty" parameterType="int" resultType="int">
+        select aid from short_manage where aid = #{aid}
+    </select>
 
 </mapper>

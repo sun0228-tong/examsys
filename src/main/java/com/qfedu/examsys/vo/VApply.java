@@ -12,5 +12,5 @@ public class VApply {
     private Date examStart;
     private Date examEnd;
     private Integer examManageId;
-
+    private Integer examTime;
 }

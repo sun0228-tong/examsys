@@ -11,4 +11,6 @@ public interface JudgecDao {
     public void updateChecking(@Param("sid") Integer sid, @Param("checking") Integer checking);
 
     public List<Integer> sidArray(@Param("sid") Integer sid, @Param("subjectId") Integer subjectId);
+
+    public void updateHasChecking(Integer sid);
 }
