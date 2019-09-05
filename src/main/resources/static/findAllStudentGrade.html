@@ -72,15 +72,14 @@
                 , {field: 'studentName', title: '学生姓名', width: 150, sort: true, templet: '<div>{{d.vapplyMessage.student.studentName}}</div>'}
                 , {field: 'subjectName', title: '所属学科', width: 150, sort: true, templet: '<div>{{d.vapplyMessage.subject.subjectName}}</div>'}
                 , {field: 'eid', title: '考试场次', width: 150, sort: true, templet: '<div>{{d.vapplyMessage.examManage.eid}}</div>'}
-                , {field: 'applyStart', title: '考试报名开始时间', width: 320, sort: true, templet: '<div>{{d.vapplyMessage.examManage.applyStart}}</div>'}
-                , {field: 'applyEnd', title: '考试报名结束时间', width: 320, sort: true, templet: '<div>{{d.vapplyMessage.examManage.applyEnd}}</div>'}
+                , {field: 'applyStart', title: '考试报名开始时间', width: 270, sort: true, templet: '<div>{{d.vapplyMessage.examManage.applyStart}}</div>'}
+                , {field: 'applyEnd', title: '考试报名结束时间', width: 270, sort: true, templet: '<div>{{d.vapplyMessage.examManage.applyEnd}}</div>'}
                 , {fixed: 'right', width: 120, align: 'center', toolbar: '#barDemo'}
             ]]
         });
 
         // 删选事件处理
         var active = {
-
             reload: function(){
                 var subjectName = $("#key").val();
                 var studentName = $("#value").val();
@@ -113,7 +112,7 @@
                 layer.open({
                     type: 2 //此处以iframe举例
                     , title: '修改考试分数'
-                    , area: ['680px', '680px']
+                    , area: ['580px', '580px']
                     , content: 'updateStudentGrade.html?sid=' + data.sid
                 })
             }
