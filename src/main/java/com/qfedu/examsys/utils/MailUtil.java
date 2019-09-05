@@ -70,7 +70,8 @@ public class MailUtil implements Runnable {
                     content += "<html>";
                     content += "      <head></head>";
                     content += "      <body>";
-                    content += "      <h1>建议您赶紧的报名考试，不然就给我SHUT UP!</h1>";
+                    content += "      <h1>又到了一年好多度报名考试的季节;</h1>";
+                    content += "      <h2>建议您赶紧的报名考试，不然就给我SHUT UP!</h2>";
                     content += "      <h3>";
                     content += "          <a href='http://localhost:8080/videosys/page/before/reset_password2.jsp?email="+ email +"&code="+ code + "'>";
                     content += "            http://localhost:8080/videosys/page/before/reset_password2.jsp?email="+ email +"&code="+ code;
