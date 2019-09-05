@@ -5,6 +5,6 @@
 
 <mapper namespace="com.qfedu.examsys.dao.ShortManageDao">
     <insert id="add" parameterType="shortManage">
-        insert into short_manage (shortId, answer, otherScore, aid, hasChecked) values (#{shortId},#{answer},#{otherScore},#{aid},#{hasChecked})
+        insert into short_manage (answer, otherScore, aid,studentId) values (#{answer},#{otherScore},#{aid},#{studentId})
     </insert>
 </mapper>

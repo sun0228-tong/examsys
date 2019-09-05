@@ -9,5 +9,8 @@ public class ShortManage {
     private String answer;
     private Integer otherScore;
     private Integer aid;
-    private boolean hasChecked;
+    private Integer hasChecked;
+    private Integer studentId;
+    private Integer checking;
+    private Integer subjectId;
 }

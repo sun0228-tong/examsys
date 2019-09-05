@@ -4,4 +4,6 @@ import com.qfedu.examsys.entity.ShortManage;
 
 public interface ShortManageService {
     public void add(ShortManage shortManage);
+
+    public ShortManage findManageById(Integer sid);
 }

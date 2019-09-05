@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qfedu.examsys.dao.JudgecDao">
+    <select id="findManageById" parameterType="int" resultType="shortManage">
+        select s.sid,s.answer,s.otherScore,a.subjectId
+        from short_manage s
+        inner join apply_message a
+        on s.aid = a.aid
+        where sid = #{sid}
+        and checking = 0
+    </select>
+
+    <update id="updateChecking" parameterType="map">
+        update short_manage set checking = #{checking} where sid = #{sid}
+    </update>
+
+    <select id="sidArray" parameterType="map" resultType="integer">
+        select s.sid, s.answer, s.otherScore
+        from short_manage s
+        inner join apply_message a
+        on s.aid = a.aid
+        where a.subjectId = #{subjectId}
+        and  s.checking = 0
+        and s.sid > #{sid}
+    </select>
+</mapper>
