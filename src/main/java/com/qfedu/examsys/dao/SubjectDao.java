@@ -36,4 +36,6 @@ public interface SubjectDao {
      * @param subject 传入的参数是一个 Subject 类对象
      */
     public void modifySubject(Subject subject);
+
+    public Subject findBySubjectName(String name);
 }

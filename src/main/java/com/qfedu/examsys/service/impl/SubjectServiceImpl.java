@@ -62,4 +62,10 @@ public class SubjectServiceImpl implements SubjectService {
         map.put("data", list);
         return map;
     }
+
+    @Override
+    public Subject findBySubjectName(String name) {
+        Subject subject = subjectDao.findBySubjectName(name);
+        return subject;
+    }
 }

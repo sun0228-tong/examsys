@@ -45,4 +45,6 @@ public interface SubjectService {
      * @return
      */
     public Map<String, Object> findBySubject(Integer page, Integer limit);
+
+    public Subject findBySubjectName(String name);
 }
