@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改权限</title>
+</head>
+<body>
+<form action="#">
+请输入用户名<input type="text" name="userName"><br>
+请输入用户权限   <select  id="test2" name="rid" lay-verify="required">
+                    <option value="">请选择权限</option>
+                    <option value="1">admin</option>
+                    <option value="2">teacher</option>
+                    <option value="3">leader</option>
+                </select>
+    <input type="submit" value="提交">
+</form>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript">
+
+    $("form").submit(function () {
+
+        var ss = $("#test2").val();
+        if (ss == null || ss == '') {
+            alert("权限不能为空！");
+        } else {
+            $.ajax({
+                type:'post',
+                url:'sys/changeAuthority.do',
+                data:$("form").serialize(),
+                dataType:'json',
+                success:function (data) {
+                    if (data.code == 1) {
+                        alert("修改成功！");
+                    }
+                }
+            });
+        }
+        return false;
+    })
+
+</script>
+</body>
+</html>

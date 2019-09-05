@@ -1,7 +1,5 @@
 package com.qfedu.examsys.service.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.qfedu.examsys.dao.SubjectDao;
 import com.qfedu.examsys.entity.Subject;
 import com.qfedu.examsys.service.SubjectService;

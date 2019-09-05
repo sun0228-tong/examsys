@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>报名信息管理</title>
+    <style type="text/css">
+
+        #class {
+            padding-top: 10px;
+            margin-left: 10px;
+        }
+
+    </style>
+    <link rel="stylesheet" href="layui/css/layui.css"/>
+    <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+</head>
+
+<body>
+<div>
+<!--    <div class="layui-form searchDiv" id="class">-->
+
+<!--        <button type="button" class="layui-btn" onclick="add()">添加</button>-->
+
+<!--    </div>-->
+</div>
+<table class="layui-hide" id="demo" lay-filter="test"></table>
+
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form', 'table'], function () {
+        var layer = layui.layer,
+            table = layui.table;
+        var element = layui.element;
+        var form = layui.form;
+
+        //执行一个 table 实例
+        table.render({
+            elem: '#demo'  // table标签的id
+            , id: "ApplyMessageList"
+            , url: 'pageAM.do' //数据接口  跨域
+            , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                , groups: 3 //只显示 1 个连续页码
+                , first: false //不显示首页
+                , last: false //不显示尾页
+                , limit: 10
+                , limits: [5, 10, 15]
+
+            }, //开启分页
+             cols: [[ //表头
+                 {field: 'aid', title: '序号', width: 50, sort: true, fixed: 'left'}
+                , {field: 'studentName', title: '姓名', width: 80, sort: true}
+                , {field: 'sex', title: '性别', width: 50}
+                , {field: 'email', title: '邮箱', width: 180, sort: true}
+                , {field: 'phone', title: '联系方式', width: 120, sort: true}
+                , {field: 'subjectName', title: '考试科目', width: 80, sort: true}
+                , {field: 'examStart', title: '开始时间', width: 200, sort: true}
+                , {field: 'examEnd', title: '结束时间', width: 200    , sort: true}
+                , {field: 'examTime', title: '时长(分钟)', width: 80, sort: true}
+
+                , {fixed: 'right', width: 150, align: 'center', toolbar: '#barDemo'}
+            ]]
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del(); //删除对应行（tr）的DOM结构
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "get",
+                        url: "deleteAM.do?aid=" + data.id,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.code == 1) {
+                                table.reload('applyMessageList');
+                            } else {
+                                alert(data.info);
+                            }
+                        }
+                    })
+                });
+            } else if (layEvent === 'edit') {
+                //layer.msg('编辑操作');
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '修改视频'
+                    , area: ['600px', '600px']
+                    , content: 'applyMessageUpdate.html?aid=' + data.id
+                })
+            }
+        });
+    })
+</script>
+
+<script type="text/javascript">
+    function add() {
+        layer.open({
+            type: 2 //此处以iframe举例
+            , title: '添加视频'
+            , area: ['600px', '600px']
+            , content: 'applyMessageAdd.html'
+        })
+    }
+</script>
+
+<script type="text/javascript">
+    function delInfo(aid) {
+        $.ajax({
+            type: "get",
+            url: "deleteAM.do?aid=" + aid,
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1) {
+                    loadData();
+                } else {
+                    alert(data.info);
+                }
+            }
+        })
+    }
+
+    function testPerms() {
+        $.ajax({
+            type: "get",
+            url: "test2.do",
+            dataType: "json",
+            success: function (data) {
+                alert(data.code);
+            }
+        })
+    }
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <link rel="stylesheet" href="layui/css/layui.css" />
+</head>
+<body>
+<div>
+
+    <form class="layui-form" lay-filter="example">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="userName" lay-verify="required" autocomplete="on"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+                <input type="text" name="password" lay-verify="required" autocomplete="on" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户权限</label>
+            <div class="layui-input-block">
+
+                <select  id="test2" name="roleName" lay-verify="required">
+                    <option value="">请选择权限</option>
+                    <option value="1">admin</option>
+                    <option value="2">teacher</option>
+                    <option value="3">leader</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form'], function(){
+        var layer = layui.layer
+            ,form = layui.form;
+
+        //自定义验证规则
+        // form.verify({
+        //     time: [
+        //         /^\d{1,9}$/
+        //         ,'格式必须为1至9位数字'
+        //     ],
+        //
+        //     courseId: [
+        //         /^\d{1}$/
+        //         ,'必须填写'
+        //     ],
+        //
+        //     speakerId: [
+        //         /^\d{1}$/
+        //         ,'必须填写'
+        //     ]
+        //
+        // });
+
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            // JSON.stringify 将js对象转为json格式的字符串
+            // data.field 表单中提交的数据
+//                    layer.alert(JSON.stringify(data.field), {
+//                        title: '最终的提交信息'
+//                    })
+            $.ajax({
+                type:"post",
+                url:"sys/addUser.do",
+                data:data.field,
+                dataType:"json",
+                success:function(data){  //{code:1,info:....}
+                    if(data.code == 1){
+                        var t = parent.layui.table;
+                        t.reload('transferTable');// 重新加载页面,demo 表示父窗体table标签的id值
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+
+            // 阻止默认的提交
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

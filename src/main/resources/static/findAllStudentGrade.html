@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询所有学生的考试成绩</title>
+    <link rel="stylesheet" href="layui/css/layui.css"/>
+    <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+</head>
+<body>
+
+<div class="layui-form demoTable">
+    <div class="layui-row layui-col-space10 layui-form-item" style="margin: 10px;">
+        <div class="layui-form-item">
+            <div class="layui-form searchDiv">
+                <form>
+                    <div class="layui-input-inline" style="width: 180px;">
+                        <select name="select_data" id="key">
+                            <option value="">所属学科</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline" style="width: 180px;">
+                        <input type="text" name="content" placeholder="请输入学生姓名" class="layui-input" id="value">
+                    </div>
+                    <div class="layui-input-inline" style="width: 180px;">
+                        <input type="text" name="content" placeholder="请输入考试场次" class="layui-input" id="value1">
+                    </div>
+                    <div class="layui-input-inline" style="width: 180px;">
+                        <button type="button" class="layui-btn" data-type="reload" id="reload">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置条件</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="layui-hide" id="demo" lay-filter="test"></table>
+
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">更新</a>
+</script>
+
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form', 'table'], function () {
+        var layer = layui.layer,
+            table = layui.table;
+        var element = layui.element;
+        var form = layui.form;
+
+
+        //执行一个 table 实例
+        table.render({
+            elem: '#demo'  // table标签的id
+            , id: "emPage"
+            , url: 'scoreInquiry/findAllScoreManage.do' //数据接口  跨域
+            , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                , groups: 3 //只显示 1 个连续页码
+                , first: false //不显示首页
+                , last: false //不显示尾页
+                , limit: 5
+                , limits: [5, 10, 15]
+
+            } //开启分页
+            , cols: [[ //表头
+                {field: 'sid', title: '序号', width: 150, sort: true, fixed: 'left'}
+                , {field: 'score', title: '考试成绩', width: 150}
+                , {field: 'studentName', title: '学生姓名', width: 150, sort: true, templet: '<div>{{d.vapplyMessage.student.studentName}}</div>'}
+                , {field: 'subjectName', title: '所属学科', width: 150, sort: true, templet: '<div>{{d.vapplyMessage.subject.subjectName}}</div>'}
+                , {field: 'eid', title: '考试场次', width: 150, sort: true, templet: '<div>{{d.vapplyMessage.examManage.eid}}</div>'}
+                , {field: 'applyStart', title: '考试报名开始时间', width: 320, sort: true, templet: '<div>{{d.vapplyMessage.examManage.applyStart}}</div>'}
+                , {field: 'applyEnd', title: '考试报名结束时间', width: 320, sort: true, templet: '<div>{{d.vapplyMessage.examManage.applyEnd}}</div>'}
+                , {fixed: 'right', width: 120, align: 'center', toolbar: '#barDemo'}
+            ]]
+        });
+
+        // 删选事件处理
+        var active = {
+
+            reload: function(){
+                var subjectName = $("#key").val();
+                var studentName = $("#value").val();
+                var eid = $("#value1").val();
+                //执行重载
+                table.reload('emPage', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: { // 额外需要提交的参数\
+                        subjectName: subjectName,
+                        studentName: studentName,
+                        eid: eid
+                    }
+                })
+            }
+        };
+
+        $('.searchDiv .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'edit') {
+                //layer.msg('编辑操作');
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '修改考试分数'
+                    , area: ['680px', '680px']
+                    , content: 'updateStudentGrade.html?sid=' + data.sid
+                })
+            }
+        });
+    })
+</script>
+
+<script type="text/javascript">
+    // 学科类型下拉框数据
+    layui.use(['element', 'layer', 'form'], function () {
+        var layer = layui.layer;
+        var form = layui.form;
+
+        $.ajax({
+            type: "get",
+            url: "scoreInquiry/findAllSubject.do",
+            dataType: "json",
+            success: function (data) {
+                if (data.code === 0) {
+                    $(data.info).each(function () {
+                        var html = '<option value="' + this.subjectName + '">' + this.subjectName + '</option>';
+                        $("#key").append($(html))
+                    });
+                    form.render("select");
+                } else {
+                    layer.msg("获取数据异常");
+                }
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

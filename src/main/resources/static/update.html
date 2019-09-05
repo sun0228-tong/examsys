@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑</title>
+    <style type="text/css">
+
+    </style>
+    <link rel="stylesheet" href="layui/css/layui.css">
+</head>
+<body>
+<div>
+
+    <form class="layui-form" action="" lay-filter="example">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="userName" lay-verify="required" autocomplete="on"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户密码</label>
+            <div class="layui-input-block">
+                <input type="text" name="password" lay-verify="required" autocomplete="on" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色</label>
+            <div class="layui-input-block">
+                <input type="text" name="roleName" lay-verify="required" autocomplete="on" readonly = "readonly" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form','table'], function(){
+        var layer = layui.layer
+            ,form = layui.form
+        // ,table = layui.table
+
+
+        $.ajax({
+            type:"get",
+            url:"sys/query.do" + window.location.search,
+            dataType:"json",
+            success:function(data){
+                if(data.code == 1){
+                    //表单初始赋值
+                    form.val('example', data.info);
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+
+        //自定义验证规则
+        form.verify({
+            // phone: [
+            //     /^1[3578]\d{9}$/
+            //     ,'手机格式不正确'
+            // ],
+            // age: [
+            // 	/^[1-9]\d{0,2}$/
+            // 	,'年龄格式不正确'
+            // ]
+
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            // JSON.stringify 将js对象转为json格式的字符串
+            // data.field 表单中提交的数据
+//                    layer.alert(JSON.stringify(data.field), {
+//                        title: '最终的提交信息'
+//                    })
+            $.ajax({
+                type:"post",
+                url:"sys/update.do" + window.location.search,
+                data:data.field,
+                dataType:"json",
+                success:function(data){  //{code:1,info:....}
+                    if(data.code == 1){
+                        var t = parent.layui.table;
+                        t.reload('transferTable');// 重新加载页面,demo 表示父窗体table标签的id值
+
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+
+                        layer.alert('更新成功');
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+
+            // 阻止默认的提交
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
