@@ -7,4 +7,7 @@ import java.util.List;
 public interface AnotherService {
 
     public List<Another> findAllSM(Integer page, Integer limit, Integer subjectId);
+
+    public String findOneAM(Integer id);
+
 }

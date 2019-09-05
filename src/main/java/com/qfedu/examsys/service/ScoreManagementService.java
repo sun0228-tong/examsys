@@ -12,4 +12,6 @@ public interface ScoreManagementService {
     Map<String, Object> findAllSubject();
 
     Map<String, Object> updateScoreManage(VScoreManage vScoreManage);
+
+    public void delScoreById(Integer id);
 }

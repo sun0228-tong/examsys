@@ -20,4 +20,10 @@ public class AnotherServiceImpl implements AnotherService {
         List<Another> list = anotherDao.findAllSM(subjectId);
         return list;
     }
+
+    @Override
+    public String findOneAM(Integer id) {
+        String answer = anotherDao.findOneAM(id);
+        return answer;
+    }
 }

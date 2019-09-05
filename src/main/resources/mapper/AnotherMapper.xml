@@ -21,5 +21,11 @@
 
     </select>
 
+    <select id="findOneAM" parameterType="int" resultType="string">
+
+        select sm.answer from short_manage sm where sm.sid = #{sid}
+
+    </select>
+
 
 </mapper>
