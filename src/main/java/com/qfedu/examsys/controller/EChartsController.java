@@ -67,7 +67,7 @@ public class EChartsController {
         return map;
     }
 
-    @RequestMapping("/fmes.do")
+    @RequestMapping("/api/fmes.do")
     public Map<String, List> FMExamScore(Integer eid) {
 
         List<FMExamScore> list = eChartsService.findStudentNameAndScore(eid);
@@ -85,7 +85,7 @@ public class EChartsController {
 
     }
 
-    @RequestMapping("/eid.do")
+    @RequestMapping("/api/eid.do")
     public JsonResult findEid() {
 
         List<FMExamScore> list = eChartsService.findStudentNameAndScoreById();
