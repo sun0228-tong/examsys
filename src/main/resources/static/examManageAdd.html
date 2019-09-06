@@ -16,7 +16,6 @@
 <div>
 
     <form class="layui-form" lay-filter="example">
-        <button class="layui-btn" onclick="fuck()">邮件提醒用户</button>
         <div class="layui-form-item">
             <label class="layui-form-label">考试科目</label>
             <div class="layui-input-block">
@@ -162,7 +161,7 @@
             dataType: "json",
             success: function (data) {
                 if (data.code == 1) {
-                    alert(data.info);
+                    layer.msg(data.info);
                 }
             }
         });
