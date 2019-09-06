@@ -32,6 +32,6 @@ public class ShortManageController {
         shortManage.setStudentId(student.getSid());
         shortManageService.add(shortManage);
         judgecService.updateHasChecking(shortManage.getSid());
-        return "提交成功";
+        return "{\"info\":\"提交成功\"}";
     }
 }
