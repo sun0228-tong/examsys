@@ -19,11 +19,12 @@
 
 <body>
 <div>
+
     <div class="layui-form searchDiv" id="class">
-
         <button type="button" class="layui-btn" onclick="add()">添加</button>
-
+        <button type="button" class="layui-btn" onclick="fuck()">邮件提醒用户</button>
     </div>
+
 </div>
 <table class="layui-hide" id="demo" lay-filter="test"></table>
 
@@ -148,6 +149,19 @@
             }
         })
     }
+
+        function fuck() {
+            $.ajax({
+                type: "get",
+                url: "stu/emailSTU.do",
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.info);
+                    }
+                }
+            });
+        }
 
 </script>
 
